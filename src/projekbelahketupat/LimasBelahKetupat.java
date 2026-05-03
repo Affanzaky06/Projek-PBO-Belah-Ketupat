@@ -51,7 +51,12 @@ public class LimasBelahKetupat extends BelahKetupat{
     public void tampilkanHasil() {
         System.out.println("Volume Limas Belah Ketupat: " + hitungVolume());
         System.out.println("Luas Permukaan Limas Belah Ketupat: " + hitungLuasPermukaan());
-
-        
+        System.out.println(" ");
+    }
+    
+    @Override
+    public void run(){
+        System.out.println("\n Thread Limas Mengeksekusi Perhirungan......");
+        tampilkanHasil();
     }
 }

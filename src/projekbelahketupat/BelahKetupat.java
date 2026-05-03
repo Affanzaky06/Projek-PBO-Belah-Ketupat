@@ -8,13 +8,14 @@ package projekbelahketupat;
  *
  * @author ACER
  */
-public class BelahKetupat {
+public class BelahKetupat implements Runnable{
     // Encapsulation
     private double d1;
     private double d2;
     
     
-    // 1. Constructor Default (Tanpa Parameter)
+    // 1. Constructor Default (Tanpa Parameter) dipakai buat bikin objek dulu, sbg contoh kalau pakai input user, maka dibuat objek dulu
+    // baru diisi kemudian pake Overloading yang bawah
     public BelahKetupat(){
         this.d1 = 0;
         this.d2 = 0;
@@ -58,6 +59,12 @@ public class BelahKetupat {
         System.out.println("Sisi Belah Ketupat: " + hitungS());
         System.out.println("Luas Belah Ketupat: " + hitungLuas());
         System.out.println("Keliling Belah Ketupat: " + hitungKeliling());
+        System.out.println(" ");
+    }
+    @Override
+    public void run() {
+        System.out.println("\n Thread BelahKetupat Mengeksekusi Perhirungan......");
+        tampilkanHasil();
     }
     
     
