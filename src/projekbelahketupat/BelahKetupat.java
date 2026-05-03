@@ -9,5 +9,56 @@ package projekbelahketupat;
  * @author ACER
  */
 public class BelahKetupat {
+    // Encapsulation
+    private double d1;
+    private double d2;
+    
+    
+    // 1. Constructor Default (Tanpa Parameter)
+    public BelahKetupat(){
+        this.d1 = 0;
+        this.d2 = 0;
+    }
+    
+    public BelahKetupat(double d1, double d2){
+        this.d1 = d1;
+        this.d2 = d2;
+    }
+    
+    public void setD1(double d1){
+        this.d1 = d1;
+    }
+    
+    public void setD2(double d2){
+        this.d2 = d2;
+    }
+    
+    public double getD1(){
+        return d1;
+    }
+    
+    public double getD2(){
+        return d2;
+    }
+    
+    public double hitungLuas(){
+        return 0.5*d1*d2;
+    }
+    
+    public double hitungS(){
+        double s = Math.sqrt(Math.pow((d1*0.5), 2) + Math.pow((d2*0.5), 2));
+        return s;
+    }
+    
+    public double hitungKeliling(){
+        return 4*(hitungS());
+    }
+    
+    public void tampilkanHasil() {
+        System.out.println("Sisi Belah Ketupat: " + hitungS());
+        System.out.println("Luas Belah Ketupat: " + hitungLuas());
+        System.out.println("Keliling Belah Ketupat: " + hitungKeliling());
+    }
+    
     
 }
