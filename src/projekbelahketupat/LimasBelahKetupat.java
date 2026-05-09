@@ -54,9 +54,24 @@ public class LimasBelahKetupat extends BelahKetupat{
         System.out.println(" ");
     }
     
-    @Override
-    public void run(){
-        System.out.println("\n Thread Limas Mengeksekusi Perhirungan......");
-        tampilkanHasil();
-    }
+//    @Override
+//    public void run(){
+//       try {
+//            // Mendapatkan nama thread yang sedang berjalan
+//            String namaThread = Thread.currentThread().getName();
+//            System.out.println("-> [" + namaThread + "] Sedang memproses data...");
+//            
+//            // "Mengerem" program secara acak antara 0.5 sampai 2 detik
+//            // Ini untuk mensimulasikan bahwa rumus matematikanya "berat"
+//            long waktuTunda = (long) (Math.random() * 2000) + 500; 
+//            Thread.sleep(waktuTunda);
+//            
+//            // Setelah selesai pending, baru tampilkan hasilnya
+//            tampilkanHasil();
+//            System.out.println("<- [" + namaThread + "] SELESAI!\n");
+//            
+//        } catch (InterruptedException e) {
+//            System.out.println("Proses terganggu!");
+//        }
+//    }
 }
