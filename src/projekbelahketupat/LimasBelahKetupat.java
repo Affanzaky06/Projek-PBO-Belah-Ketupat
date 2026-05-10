@@ -49,9 +49,14 @@ public class LimasBelahKetupat extends BelahKetupat{
     }
     @Override
     public void tampilkanHasil() {
-        System.out.println("Volume Limas Belah Ketupat: " + hitungVolume());
-        System.out.println("Luas Permukaan Limas Belah Ketupat: " + hitungLuasPermukaan());
-        System.out.println(" ");
+        
+        BangunGeometri.logTarget.append("Volume Limas Belah Ketupat: " + hitungVolume() + "\n");
+        BangunGeometri.logTarget.append("Luas Permukaan Limas Belah Ketupat: " + hitungLuasPermukaan()+ "\n");
+        BangunGeometri.logTarget.append("------------------------------------\n");
+        
+//        System.out.println("Volume Limas Belah Ketupat: " + hitungVolume());
+//        System.out.println("Luas Permukaan Limas Belah Ketupat: " + hitungLuasPermukaan());
+//        System.out.println(" ");
     }
     
 //    @Override

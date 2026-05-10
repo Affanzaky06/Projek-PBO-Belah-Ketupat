@@ -56,10 +56,16 @@ public class BelahKetupat extends BangunGeometri{
     }
     
     public void tampilkanHasil() {
-        System.out.println("Sisi Belah Ketupat: " + hitungS());
-        System.out.println("Luas Belah Ketupat: " + hitungLuas());
-        System.out.println("Keliling Belah Ketupat: " + hitungKeliling());
-        System.out.println(" ");
+        
+        BangunGeometri.logTarget.append("Sisi Belah Ketupat: " + hitungS() + "\n");
+        BangunGeometri.logTarget.append("Luas Belah Ketupat: " + hitungLuas() + "\n");
+        BangunGeometri.logTarget.append("Keliling Belah Ketupat: " + hitungKeliling() + "\n");
+        BangunGeometri.logTarget.append("------------------------------------\n");
+        
+//        System.out.println("Sisi Belah Ketupat: " + hitungS());
+//        System.out.println("Luas Belah Ketupat: " + hitungLuas());
+//        System.out.println("Keliling Belah Ketupat: " + hitungKeliling());
+//        System.out.println(" ");
     }
 //    @Override
 //    public void run() {

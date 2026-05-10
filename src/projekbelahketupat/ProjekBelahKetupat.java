@@ -14,6 +14,7 @@ public class ProjekBelahKetupat {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+      
         System.out.println("=== UJI BEBAN MULTITHREADING DENGAN DATA RANDOM ===\n");
 
         int jumlahData = 10000; // Kita coba buat 5 bangun ruang sekaligus
@@ -26,21 +27,22 @@ public class ProjekBelahKetupat {
             double randTinggi = 10 + (Math.random() * 40);
 
             // BUKTI POLYMORPHISM di dalam Looping
-            BelahKetupat bangun; 
+            BangunGeometri bangun; 
             
-            bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
-            bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
-            bangun = new BelahKetupat(randD1, randD2);
-            // Jika angkanya genap buat Prisma, jika ganjil buat Limas
+            if (i % 3 == 0) {
+                bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
+            } else if (i % 3 == 1) {
+                bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
+            } else {
+                 bangun = new BelahKetupat(randD1, randD2);
+            }
             
-//            if (i % 2 == 0) {
-//                bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
-//            } else {
-//                bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
-//            }
-
+            String namaAsli = bangun.getClass().getSimpleName();
+            
+            String namaThreadCustom = namaAsli + " - " + i;
+            
             // Memasukkan objek ke dalam array Thread dan langsung di-START!
-            kumpulanThread[i] = new Thread(bangun, "Thread-" + i);
+            kumpulanThread[i] = new Thread(bangun, namaThreadCustom);
             kumpulanThread[i].start();
         }
 

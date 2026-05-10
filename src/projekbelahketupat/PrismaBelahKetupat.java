@@ -39,9 +39,14 @@ public class PrismaBelahKetupat extends BelahKetupat{
     }
     @Override
     public void tampilkanHasil() {
-        System.out.println("Volume Prisma Belah Ketupat: " + hitungVolume());
-        System.out.println("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan());
-        System.out.println(" ");
+        
+        BangunGeometri.logTarget.append("Volume Prisma Belah Ketupat: " + hitungVolume()+ "\n");
+        BangunGeometri.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan()+ "\n");
+        BangunGeometri.logTarget.append("------------------------------------\n");
+        
+//        System.out.println("Volume Prisma Belah Ketupat: " + hitungVolume());
+//        System.out.println("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan());
+//        System.out.println(" ");
     }
     
 //    @Override
