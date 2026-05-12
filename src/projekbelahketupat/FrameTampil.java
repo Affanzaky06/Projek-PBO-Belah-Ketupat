@@ -50,9 +50,13 @@ public class FrameTampil extends javax.swing.JFrame {
         RandomRun = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Program Belah Ketupat");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("BELAH KETUPAT");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel1.setVerifyInputWhenFocusTarget(false);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -117,13 +121,10 @@ public class FrameTampil extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(jLabel1)
-                .addContainerGap(122, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +252,7 @@ public class FrameTampil extends javax.swing.JFrame {
 
         // ========================================================
         // 3. MASTER THREAD (BUNGKUS SEMUANYA DI SINI BIAR GAK FREEZE)
-        // ========================================================
+        
         Thread masterThread = new Thread(new Runnable() {
             @Override
             public void run() {
