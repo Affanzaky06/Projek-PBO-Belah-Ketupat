@@ -46,6 +46,7 @@ public class FrameTampil extends javax.swing.JFrame {
         rCheckBoxBK = new javax.swing.JCheckBoxMenuItem();
         rCheckBoxLimas = new javax.swing.JCheckBoxMenuItem();
         rCheckBoxPrisma = new javax.swing.JCheckBoxMenuItem();
+        cbMultithreading = new javax.swing.JCheckBoxMenuItem();
         RandomRun = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -119,6 +120,15 @@ public class FrameTampil extends javax.swing.JFrame {
         });
         Random.add(rCheckBoxPrisma);
 
+        cbMultithreading.setSelected(true);
+        cbMultithreading.setText("Multithreading");
+        cbMultithreading.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMultithreadingActionPerformed(evt);
+            }
+        });
+        Random.add(cbMultithreading);
+
         RandomRun.setText("Run");
         RandomRun.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -186,7 +196,8 @@ public class FrameTampil extends javax.swing.JFrame {
     }//GEN-LAST:event_RandomRunMouseClicked
 
     private void jMenuInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInputActionPerformed
-        // TODO add your handling code here:                                          
+        // TODO add your handling code here:                 
+        
         // 1. Cek apakah ada yang dicentang
         if (!mCheckBoxBK.isSelected() && !mCheckBoxPrisma.isSelected() && !mCheckBoxLimas.isSelected()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun di menu Input Manual!");
@@ -278,65 +289,144 @@ public class FrameTampil extends javax.swing.JFrame {
     private void RandomRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomRunActionPerformed
         // TODO add your handling code here:
         if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun di menu Random!");
+            javax.swing.JOptionPane.showMessageDialog(
+                this, 
+                "Centang minimal satu bangun di menu Random!"
+            );
             return;
         }
 
-        jTextArea1.append("\n>> UJI BEBAN MULTITHREADING DENGAN DATA RANDOM\n");
+        boolean pakaiThread = cbMultithreading.isSelected();
 
-        // 2. Generate ukuran acak
-        Thread masterThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                
-                // Gunakan jumlah 10.000 (Atau kurangi jadi 1000 kalau PC/Laptop mulai ngelag)
-                int jumlahData = 10000; 
-                Thread[] kumpulanThread = new Thread[jumlahData];
+        jTextArea1.append(
+            "\n>> RANDOM MODE | MULTITHREADING : " 
+            + (pakaiThread ? "ON" : "OFF") 
+            + "\n"
+        );
 
-                for (int i = 0; i < jumlahData; i++) {
-                    double randD1 = 10 + (Math.random() * 40);
-                    double randD2 = 10 + (Math.random() * 40);
-                    double randTinggi = 10 + (Math.random() * 40);
+        int jumlahData = 10000;
 
-                    BangunGeometri bangun; 
-                    
-                    // Logika i % 3 dari main lamamu
-                    if (i % 3 == 0) {
-                        bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
-                    } else if (i % 3 == 1) {
-                        bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
-                    } else {
-                        bangun = new BelahKetupat(randD1, randD2);
+        // =========================
+        // MODE MULTITHREADING
+        // =========================
+        if (pakaiThread) {
+
+            Thread masterThread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    Thread[] kumpulanThread = new Thread[jumlahData];
+
+                    for (int i = 0; i < jumlahData; i++) {
+
+                        double randD1 = 10 + (Math.random() * 40);
+                        double randD2 = 10 + (Math.random() * 40);
+                        double randTinggi = 10 + (Math.random() * 40);
+
+                        BangunGeometri bangun;
+
+                        if (i % 3 == 0) {
+                            bangun = new PrismaBelahKetupat(
+                                randD1, randD2, randTinggi
+                            );
+
+                        } else if (i % 3 == 1) {
+
+                            bangun = new LimasBelahKetupat(
+                                randD1, randD2, randTinggi
+                            );
+
+                        } else {
+
+                            bangun = new BelahKetupat(
+                                randD1, randD2
+                            );
+                        }
+
+                        String namaThread =
+                            bangun.getClass().getSimpleName()
+                            + " - " + i;
+
+                        kumpulanThread[i] =
+                            new Thread(bangun, namaThread);
+
+                        kumpulanThread[i].start();
                     }
-                    
-                    String namaAsli = bangun.getClass().getSimpleName();
-                    String namaThreadCustom = namaAsli + " - " + i;
-                    
-                    // Memasukkan objek ke array dan langsung start
-                    kumpulanThread[i] = new Thread(bangun, namaThreadCustom);
-                    kumpulanThread[i].start();
+
+                    // join
+                    for (int i = 0; i < jumlahData; i++) {
+
+                        try {
+                            kumpulanThread[i].join();
+
+                        } catch (InterruptedException e) {
+                        }
+                    }
+
+                    javax.swing.SwingUtilities.invokeLater(
+                        new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            jTextArea1.append(
+                                "\n=== MULTITHREADING SELESAI ===\n"
+                            );
+                        }
+                    });
+                }
+            });
+
+            masterThread.start();
+
+        } 
+
+        // =========================
+        // MODE SINGLE THREAD
+        // =========================
+        else {
+
+            for (int i = 0; i < jumlahData; i++) {
+
+                double randD1 = 10 + (Math.random() * 40);
+                double randD2 = 10 + (Math.random() * 40);
+                double randTinggi = 10 + (Math.random() * 40);
+
+                BangunGeometri bangun;
+
+                if (i % 3 == 0) {
+
+                    bangun = new PrismaBelahKetupat(
+                        randD1, randD2, randTinggi
+                    );
+
+                } else if (i % 3 == 1) {
+
+                    bangun = new LimasBelahKetupat(
+                        randD1, randD2, randTinggi
+                    );
+
+                } else {
+
+                    bangun = new BelahKetupat(
+                        randD1, randD2
+                    );
                 }
 
-                // SINKRONISASI: Master Thread menunggu semua anak selesai
-                for (int i = 0; i < jumlahData; i++) {
-                    try {
-                        kumpulanThread[i].join();
-                    } catch (InterruptedException e) {}
-                }
-
-                // Setelah semua 10.000 selesai, laporkan ke GUI (Wajib pakai invokeLater)
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        jTextArea1.append("\n=== SEMUA " + jumlahData + " PERHITUNGAN MASSAL SELESAI ===\n");
-                    }
-                });
+                // langsung jalan TANPA THREAD
+                bangun.run();
             }
-        });
 
-        // JALANKAN BOS-NYA!
-        masterThread.start();
+            jTextArea1.append(
+                "\n=== SINGLE THREAD SELESAI ===\n"
+            );
+        }
     }//GEN-LAST:event_RandomRunActionPerformed
+
+    private void cbMultithreadingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMultithreadingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMultithreadingActionPerformed
 
     /**
      * @param args the command line arguments
@@ -378,6 +468,7 @@ public class FrameTampil extends javax.swing.JFrame {
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenu Random;
     private javax.swing.JMenuItem RandomRun;
+    private javax.swing.JCheckBoxMenuItem cbMultithreading;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMenuInput;
     private javax.swing.JScrollPane jScrollPane1;
