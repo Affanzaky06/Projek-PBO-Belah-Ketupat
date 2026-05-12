@@ -35,7 +35,7 @@ public abstract class BangunGeometri implements Runnable{
             }
             
             // Simulasi perhitungan berat
-            int waktuTunda =  10000; 
+            int waktuTunda =  100; 
             Thread.sleep(waktuTunda);
             
             

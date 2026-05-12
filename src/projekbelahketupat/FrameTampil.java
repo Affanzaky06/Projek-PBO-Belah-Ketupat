@@ -288,140 +288,111 @@ public class FrameTampil extends javax.swing.JFrame {
 
     private void RandomRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomRunActionPerformed
         // TODO add your handling code here:
-        if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
-            javax.swing.JOptionPane.showMessageDialog(
-                this, 
-                "Centang minimal satu bangun di menu Random!"
-            );
+     if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun di menu Random!");
             return;
         }
 
+        // 2. Ambil Status Mode
         boolean pakaiThread = cbMultithreading.isSelected();
+        java.util.ArrayList<String> pilihanAktif = new java.util.ArrayList<>();
+        if (rCheckBoxBK.isSelected()) pilihanAktif.add("BK");
+        if (rCheckBoxPrisma.isSelected()) pilihanAktif.add("PRISMA");
+        if (rCheckBoxLimas.isSelected()) pilihanAktif.add("LIMAS");
+        
+        jTextArea1.append("\n>> RANDOM MODE | MULTITHREADING : " + (pakaiThread ? "ON" : "OFF") + "\n");
 
-        jTextArea1.append(
-            "\n>> RANDOM MODE | MULTITHREADING : " 
-            + (pakaiThread ? "ON" : "OFF") 
-            + "\n"
-        );
+        int jumlahData = 100;
 
-        int jumlahData = 10000;
+        // ========================================================
+        // 3. MASTER THREAD (BUNGKUS SEMUANYA DI SINI BIAR GAK FREEZE)
+        // ========================================================
+        Thread masterThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        // =========================
-        // MODE MULTITHREADING
-        // =========================
-        if (pakaiThread) {
-
-            Thread masterThread = new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-
+                if (pakaiThread) {
+                    // ------------------------------------
+                    // JIKA ON: EKSEKUSI PARALEL (BALAPAN)
+                    // ------------------------------------
                     Thread[] kumpulanThread = new Thread[jumlahData];
 
                     for (int i = 0; i < jumlahData; i++) {
-
                         double randD1 = 10 + (Math.random() * 40);
                         double randD2 = 10 + (Math.random() * 40);
                         double randTinggi = 10 + (Math.random() * 40);
 
                         BangunGeometri bangun;
+                        String jenis = pilihanAktif.get(i % pilihanAktif.size());
 
-                        if (i % 3 == 0) {
-                            bangun = new PrismaBelahKetupat(
-                                randD1, randD2, randTinggi
-                            );
-
-                        } else if (i % 3 == 1) {
-
-                            bangun = new LimasBelahKetupat(
-                                randD1, randD2, randTinggi
-                            );
-
+                        if (jenis.equals("PRISMA")) {
+                            bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
+                        } else if (jenis.equals("LIMAS")) {
+                            bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
                         } else {
-
-                            bangun = new BelahKetupat(
-                                randD1, randD2
-                            );
+                            bangun = new BelahKetupat(randD1, randD2);
                         }
 
-                        String namaThread =
-                            bangun.getClass().getSimpleName()
-                            + " - " + i;
-
-                        kumpulanThread[i] =
-                            new Thread(bangun, namaThread);
-
+                        String namaThread = bangun.getClass().getSimpleName() + " - " + i;
+                        kumpulanThread[i] = new Thread(bangun, namaThread);
                         kumpulanThread[i].start();
                     }
 
-                    // join
+                    // Sinkronisasi (Tunggu semua beres)
                     for (int i = 0; i < jumlahData; i++) {
-
-                        try {
-                            kumpulanThread[i].join();
-
-                        } catch (InterruptedException e) {
-                        }
+                        try { kumpulanThread[i].join(); } catch (InterruptedException e) {}
                     }
 
-                    javax.swing.SwingUtilities.invokeLater(
-                        new Runnable() {
-
+                    // Lapor ke GUI kalau sudah selesai
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
+                            jTextArea1.append("\n=== MULTITHREADING SELESAI ===\n");
+                            jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
+                        }
+                    });
 
-                            jTextArea1.append(
-                                "\n=== MULTITHREADING SELESAI ===\n"
-                            );
+                } else {
+                    // ------------------------------------
+                    // JIKA OFF: EKSEKUSI SEKUENSIAL (ANTRE)
+                    // ------------------------------------
+                    for (int i = 0; i < jumlahData; i++) {
+                        double randD1 = 10 + (Math.random() * 40);
+                        double randD2 = 10 + (Math.random() * 40);
+                        double randTinggi = 10 + (Math.random() * 40);
+
+                        BangunGeometri bangun;
+                        String jenis = pilihanAktif.get(i % pilihanAktif.size());
+
+                        if (jenis.equals("PRISMA")) {
+                            bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
+                        } else if (jenis.equals("LIMAS")) {
+                            bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
+                        } else {
+                            bangun = new BelahKetupat(randD1, randD2);
+                        }
+
+                        // Ganti nama Master Thread sementara sesuai objek yang lagi diproses
+                        Thread.currentThread().setName(bangun.getClass().getSimpleName() + " - " + i);
+                        
+                        // Eksekusi langsung (nunggu selesai baru lanjut loop berikutnya)
+                        bangun.run();
+                    }
+
+                    // Lapor ke GUI kalau sudah selesai
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            jTextArea1.append("\n=== SINGLE THREAD SELESAI ===\n");
+                            jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
                         }
                     });
                 }
-            });
+            } // Tutup public void run() milik Master Thread
+        }); // Tutup Master Thread
 
-            masterThread.start();
-
-        } 
-
-        // =========================
-        // MODE SINGLE THREAD
-        // =========================
-        else {
-
-            for (int i = 0; i < jumlahData; i++) {
-
-                double randD1 = 10 + (Math.random() * 40);
-                double randD2 = 10 + (Math.random() * 40);
-                double randTinggi = 10 + (Math.random() * 40);
-
-                BangunGeometri bangun;
-
-                if (i % 3 == 0) {
-
-                    bangun = new PrismaBelahKetupat(
-                        randD1, randD2, randTinggi
-                    );
-
-                } else if (i % 3 == 1) {
-
-                    bangun = new LimasBelahKetupat(
-                        randD1, randD2, randTinggi
-                    );
-
-                } else {
-
-                    bangun = new BelahKetupat(
-                        randD1, randD2
-                    );
-                }
-
-                // langsung jalan TANPA THREAD
-                bangun.run();
-            }
-
-            jTextArea1.append(
-                "\n=== SINGLE THREAD SELESAI ===\n"
-            );
-        }
+        // 4. JALANKAN MASTER THREAD-NYA!
+        masterThread.start();
     }//GEN-LAST:event_RandomRunActionPerformed
 
     private void cbMultithreadingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMultithreadingActionPerformed
