@@ -18,7 +18,7 @@ public class FrameTampil extends javax.swing.JFrame {
         
         BangunGeometri.logTarget = jTextArea1;
         
-        // Bikin tampilan text area jadi hitam hijau (opsional)
+        // Bikin tampilan text area jadi hitam hijau 
         jTextArea1.setBackground(new java.awt.Color(15, 15, 15));
         jTextArea1.setForeground(new java.awt.Color(0, 255, 0));
         jTextArea1.setEditable(false);
@@ -59,15 +59,6 @@ public class FrameTampil extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         Manual.setText("Input Manual");
-        Manual.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                ManualMenuSelected(evt);
-            }
-        });
 
         mCheckBoxBK.setSelected(true);
         mCheckBoxBK.setText("Belah Ketupat");
@@ -75,11 +66,6 @@ public class FrameTampil extends javax.swing.JFrame {
 
         mCheckBoxLimas.setSelected(true);
         mCheckBoxLimas.setText("Limas Belah Ketupat");
-        mCheckBoxLimas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mCheckBoxLimasActionPerformed(evt);
-            }
-        });
         Manual.add(mCheckBoxLimas);
 
         mCheckBoxPrisma.setSelected(true);
@@ -100,11 +86,6 @@ public class FrameTampil extends javax.swing.JFrame {
 
         rCheckBoxBK.setSelected(true);
         rCheckBoxBK.setText("Belah Ketupat");
-        rCheckBoxBK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rCheckBoxBKActionPerformed(evt);
-            }
-        });
         Random.add(rCheckBoxBK);
 
         rCheckBoxLimas.setSelected(true);
@@ -113,28 +94,13 @@ public class FrameTampil extends javax.swing.JFrame {
 
         rCheckBoxPrisma.setSelected(true);
         rCheckBoxPrisma.setText("Prisma Belah Ketupat");
-        rCheckBoxPrisma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rCheckBoxPrismaActionPerformed(evt);
-            }
-        });
         Random.add(rCheckBoxPrisma);
 
         cbMultithreading.setSelected(true);
         cbMultithreading.setText("Multithreading");
-        cbMultithreading.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbMultithreadingActionPerformed(evt);
-            }
-        });
         Random.add(cbMultithreading);
 
         RandomRun.setText("Run");
-        RandomRun.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RandomRunMouseClicked(evt);
-            }
-        });
         RandomRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RandomRunActionPerformed(evt);
@@ -171,29 +137,6 @@ public class FrameTampil extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ManualMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_ManualMenuSelected
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ManualMenuSelected
-
-    private void rCheckBoxPrismaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rCheckBoxPrismaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rCheckBoxPrismaActionPerformed
-
-    private void rCheckBoxBKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rCheckBoxBKActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rCheckBoxBKActionPerformed
-
-    private void mCheckBoxLimasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mCheckBoxLimasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mCheckBoxLimasActionPerformed
-
-    private void RandomRunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RandomRunMouseClicked
-        // TODO add your handling code here:
-        
-
-        
-    }//GEN-LAST:event_RandomRunMouseClicked
 
     private void jMenuInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInputActionPerformed
         // TODO add your handling code here:                 
@@ -250,6 +193,7 @@ public class FrameTampil extends javax.swing.JFrame {
                     bk.setD2(d2);
                     
                     bk.tampilkanHasil(); // Panggil langsung method-nya
+                   
                 }
                 
                 if (mCheckBoxPrisma.isSelected()) {
@@ -261,6 +205,7 @@ public class FrameTampil extends javax.swing.JFrame {
                     prisma.setTinggiPrisma(t);
                     
                     prisma.tampilkanHasil(); // Panggil langsung method-nya
+             
                 }
                 
                 if (mCheckBoxLimas.isSelected()) {
@@ -388,16 +333,12 @@ public class FrameTampil extends javax.swing.JFrame {
                         }
                     });
                 }
-            } // Tutup public void run() milik Master Thread
-        }); // Tutup Master Thread
+            } 
+        }); 
 
         // 4. JALANKAN MASTER THREAD-NYA!
         masterThread.start();
     }//GEN-LAST:event_RandomRunActionPerformed
-
-    private void cbMultithreadingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMultithreadingActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbMultithreadingActionPerformed
 
     /**
      * @param args the command line arguments
