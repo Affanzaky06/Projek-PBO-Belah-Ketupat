@@ -153,7 +153,7 @@ public class FrameTampil extends javax.swing.JFrame {
         javax.swing.JTextField d2Field = new javax.swing.JTextField();
         javax.swing.JTextField tField = new javax.swing.JTextField();
 
-        // 3. LOGIKA JENIUS: Cek apakah kita butuh input Tinggi?
+        // 3.  Cek apakah kita butuh input Tinggi?
         boolean butuhTinggi = mCheckBoxPrisma.isSelected() || mCheckBoxLimas.isSelected();
 
         // 4. Susun form secara dinamis menggunakan ArrayList
@@ -179,8 +179,16 @@ public class FrameTampil extends javax.swing.JFrame {
                 double d2 = Double.parseDouble(d2Field.getText());
                 double t = 0;
                 
+                if (d1 <= 0 || d2 <= 0) {
+                    throw new Exception ("nilai d1 dan d2 tidak boleh <= 0");
+                
+                }
+                
                 if (butuhTinggi) {
                     t = Double.parseDouble(tField.getText());
+                    if (t <= 0) {
+                        throw new Exception("nilai t tidak boleh <=0");
+                    }
                 }
 
                 jTextArea1.append("\n>> [MANUAL] Memproses (D1=" + d1 + ", D2=" + d2 + (butuhTinggi ? ", T=" + t : "") + ")\n");
@@ -225,8 +233,8 @@ public class FrameTampil extends javax.swing.JFrame {
                 // Efek autoscroll ke bawah
                 jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
 
-            } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Gagal! Pastikan semua kolom terisi angka.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Gagal! " +  e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
     
@@ -299,9 +307,7 @@ public class FrameTampil extends javax.swing.JFrame {
                     });
 
                 } else {
-                    // ------------------------------------
-                    // JIKA OFF: EKSEKUSI SEKUENSIAL (ANTRE)
-                    // ------------------------------------
+                   
                     for (int i = 0; i < jumlahData; i++) {
                         double randD1 = 10 + (Math.random() * 40);
                         double randD2 = 10 + (Math.random() * 40);

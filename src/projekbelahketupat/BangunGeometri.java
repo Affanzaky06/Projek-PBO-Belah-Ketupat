@@ -40,7 +40,7 @@ public abstract class BangunGeometri implements Runnable{
             
             
           
-            // POLYMORPHISM BERAKSI DI SINI!
+         
             // Java akan memanggil tampilkanHasil() sesuai wujud aslinya (Prisma/Limas)
             
             if (logTarget != null) {
