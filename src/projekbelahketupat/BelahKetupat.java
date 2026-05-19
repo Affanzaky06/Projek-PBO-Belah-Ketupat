@@ -12,6 +12,9 @@ public class BelahKetupat extends BangunGeometri{
     // Encapsulation
     private double d1;
     private double d2;
+    private double sisi;
+    private double luas;
+    private double keliling;
     
     
     // 1. Constructor Default (Tanpa Parameter) dipakai buat bikin objek dulu, sbg contoh kalau pakai input user, maka dibuat objek dulu
@@ -33,13 +36,25 @@ public class BelahKetupat extends BangunGeometri{
     public void setD2(double d2){
         this.d2 = d2;
     }
-    
+      
     public double getD1(){
         return d1;
     }
     
     public double getD2(){
         return d2;
+    }
+    
+    public double getSisi(){
+        return sisi; 
+    }
+    
+    public double getLuas(){ 
+        return luas; 
+    }
+    
+    public double getKeliling(){ 
+        return keliling; 
     }
     
     public double hitungLuas(){
@@ -57,36 +72,60 @@ public class BelahKetupat extends BangunGeometri{
     
     public void tampilkanHasil() {
         
+       
         BangunGeometri.logTarget.append("Sisi Belah Ketupat: " + hitungS() + "\n");
         BangunGeometri.logTarget.append("Luas Belah Ketupat: " + hitungLuas() + "\n");
         BangunGeometri.logTarget.append("Keliling Belah Ketupat: " + hitungKeliling() + "\n");
         BangunGeometri.logTarget.append("------------------------------------\n");
+    }   
+
+    @Override
+    public void run() {
+        final String namaThread = Thread.currentThread().getName();
+        try {
+            for (int i = 0; i < 20; i++) {
+                final int persen = i * 5;
+                
+                StringBuilder barProgres = new StringBuilder("[");
+                for (int j = 0; j < 20; j++) {
+                    barProgres.append(j <= i? "||" : "-");
+                }
+                barProgres.append("]");
+                final String tampilBar = barProgres.toString();
+                
+                if (logTarget != null) {
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            logTarget.append("⏳ [" + namaThread + "] " + tampilBar + " " + persen + "%\n");
+                            logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                        }
+                    });
+                }
+                Thread.sleep(100); 
+            }
+            
+            // URUTAN EKSEKUSI MUTATOR (Sangat Penting!)
+            hitungS();        // Mengisi atribut 'sisi'
+            hitungLuas();     // Mengisi atribut 'luas'
+            hitungKeliling(); // Memakai atribut 'sisi' untuk mengisi 'keliling'
+            
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        logTarget.append(" [" + namaThread + "] FINISH!\n");
+                        tampilkanHasil();
+                        logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                    }
+                });
+                
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         
-//        System.out.println("Sisi Belah Ketupat: " + hitungS());
-//        System.out.println("Luas Belah Ketupat: " + hitungLuas());
-//        System.out.println("Keliling Belah Ketupat: " + hitungKeliling());
-//        System.out.println(" ");
     }
-//    @Override
-//    public void run() {
-//        try {
-//            // Mendapatkan nama thread yang sedang berjalan
-//            String namaThread = Thread.currentThread().getName();
-//            System.out.println("-> [" + namaThread + "] Sedang memproses data...");
-//            
-//            // "Mengerem" program secara acak antara 0.5 sampai 2 detik
-//            // Ini untuk mensimulasikan bahwa rumus matematikanya "berat"
-//            long waktuTunda = (long) (Math.random() * 2000) + 500; 
-//            Thread.sleep(waktuTunda);
-//            
-//            // Setelah selesai pending, baru tampilkan hasilnya
-//            tampilkanHasil();
-//            System.out.println("<- [" + namaThread + "] SELESAI!\n");
-//            
-//        } catch (InterruptedException e) {
-//            System.out.println("Proses terganggu!");
-//        }
-//    }
     
     
 }

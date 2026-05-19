@@ -11,6 +11,8 @@ package projekbelahketupat;
 public class LimasBelahKetupat extends BelahKetupat{
     
     private double tinggiLimas;
+    private double volume;
+    private double luasPermukaan;
     
     public LimasBelahKetupat(){
         super();
@@ -28,6 +30,14 @@ public class LimasBelahKetupat extends BelahKetupat{
     
     public double getTinggiLimas(){
     return tinggiLimas;
+    }
+    
+    public double getVolume(){ 
+        return volume; 
+    }
+    
+    public double getLuasPermukaan(){ 
+        return luasPermukaan; 
     }
     
     public double hitungVolume(){
@@ -54,9 +64,7 @@ public class LimasBelahKetupat extends BelahKetupat{
         BangunGeometri.logTarget.append("Luas Permukaan Limas Belah Ketupat: " + hitungLuasPermukaan()+ "\n");
         BangunGeometri.logTarget.append("------------------------------------\n");
         
-//        System.out.println("Volume Limas Belah Ketupat: " + hitungVolume());
-//        System.out.println("Luas Permukaan Limas Belah Ketupat: " + hitungLuasPermukaan());
-//        System.out.println(" ");
+
     }
     
 //    @Override

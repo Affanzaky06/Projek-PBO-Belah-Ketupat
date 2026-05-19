@@ -256,19 +256,17 @@ public class FrameTampil extends javax.swing.JFrame {
         
         jTextArea1.append("\n>> RANDOM MODE | MULTITHREADING : " + (pakaiThread ? "ON" : "OFF") + "\n");
 
-        int jumlahData = 10000;
+        int jumlahData = 100;
 
-        // ========================================================
-        // 3. MASTER THREAD (BUNGKUS SEMUANYA DI SINI BIAR GAK FREEZE)
+        
+        // 3. MASTER THREAD (BIAR GAK FREEZE)
         
         Thread masterThread = new Thread(new Runnable() {
             @Override
             public void run() {
 
                 if (pakaiThread) {
-                    // ------------------------------------
-                    // JIKA ON: EKSEKUSI PARALEL (BALAPAN)
-                    // ------------------------------------
+                   
                     Thread[] kumpulanThread = new Thread[jumlahData];
 
                     for (int i = 0; i < jumlahData; i++) {

@@ -10,6 +10,8 @@ package projekbelahketupat;
  */
 public class PrismaBelahKetupat extends BelahKetupat{
     private double tinggiPrisma;
+    private double volume;
+    private double luasPermukaan;
     
    
     public PrismaBelahKetupat(){
@@ -27,7 +29,15 @@ public class PrismaBelahKetupat extends BelahKetupat{
     }
     
     public double getTinggiPrisma(){
-    return tinggiPrisma;
+        return tinggiPrisma;
+    }
+    
+    public double getVolume(){ 
+        return volume; 
+    }
+    
+    public double getLuasPermukaan(){ 
+        return luasPermukaan; 
     }
     
     public double hitungVolume(){
