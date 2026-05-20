@@ -211,7 +211,7 @@ public class FrameTampil extends javax.swing.JFrame {
                 
                 if (mCheckBoxPrisma.isSelected()) {
                     jTextArea1.append("-> Menghitung Prisma Belah Ketupat...\n");
-                    PrismaBelahKetupat prisma = new PrismaBelahKetupat(d1, d2, t);
+                    PrismaBelahKetupat prisma = new PrismaBelahKetupat();
                     
                     prisma.d1 = d1;
                     prisma.d2 = d2;
