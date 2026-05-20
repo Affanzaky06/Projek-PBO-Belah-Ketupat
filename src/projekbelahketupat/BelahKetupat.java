@@ -69,7 +69,7 @@ public class BelahKetupat implements Runnable{
                         }
                     });
                 }
-            int waktuTunda = 10;
+            int waktuTunda =  10 + (int)(Math.random() * 40);
             Thread.sleep(waktuTunda);
             }
             
@@ -85,9 +85,6 @@ public class BelahKetupat implements Runnable{
 //                    }
 //                });
 //            }
-            
-            
-            
 
             hitungS();
             hitungLuas();
@@ -96,18 +93,26 @@ public class BelahKetupat implements Runnable{
 
             
             // 4. Tampilkan Hasil (Java akan memanggil tampilkanHasil() sesuai wujud aslinya berkat Polymorphism)
-            if (logTarget != null) {
+
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        logTarget.append("[" + namaThread + "] Berhasil finish!\n");
-
-                        tampilkanHasil();
                         
-                        logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                        if (barProses != null) {
+                            barProses.setValue(100);
+                        }
+                        
+                        if (logTarget != null) {
+                            logTarget.append("[" + namaThread + "] Berhasil finish!\n");
+
+                            tampilkanHasil();
+                        
+                            logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                        }
+                        
                     }
                 });
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

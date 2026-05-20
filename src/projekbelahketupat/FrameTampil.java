@@ -292,7 +292,7 @@ public class FrameTampil extends javax.swing.JFrame {
 
         int jumlahData = 5; 
 
-        // === BERSIHKAN PANEL BAR SEBELUM MULAI ===
+
         panelBar.removeAll(); 
         panelBar.setLayout(new javax.swing.BoxLayout(panelBar, javax.swing.BoxLayout.Y_AXIS));
 

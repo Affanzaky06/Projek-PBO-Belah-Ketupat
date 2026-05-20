@@ -75,8 +75,8 @@ public class LimasBelahKetupat extends BelahKetupat{
                         }
                     });
                 }
-                int waktuTunda = 10;
-            Thread.sleep(waktuTunda);
+                int waktuTunda =  10 + (int)(Math.random() * 40);
+                Thread.sleep(waktuTunda);
             }
             
 //            if (logTarget != null) {
@@ -100,21 +100,26 @@ public class LimasBelahKetupat extends BelahKetupat{
              this.hitungLuasPermukaan();
 
             
-            if (logTarget != null) {
+         
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        // Cetak nama pesertanya dulu
-                        logTarget.append("[" + namaThread + "] Berhasil finish!\n");
                         
-                        // Panggil hasil cetakan masing-masing
-                        tampilkanHasil();
+                        if (barProses != null) {
+                            barProses.setValue(100);
+                        }
                         
-                        // EFEK TERMINAL: Paksa layar otomatis scroll ke baris paling bawah
-                        logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                        if (logTarget != null) {
+                            logTarget.append("[" + namaThread + "] Berhasil finish!\n");
+
+                            tampilkanHasil();
+                        
+                            logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                        }
+                        
                     }
                 });
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
