@@ -61,13 +61,10 @@ public class LimasBelahKetupat extends BelahKetupat{
     }
     
 @Override
-    public void run() { // ◄ Hapus kata 'abstract' dan titik koma ';'
+    public void run() { 
         try {
-            // 1. TANGKAP NAMA THREAD SEBELUM MASUK GUI (Cukup 1 kali saja)
             final String namaThread = Thread.currentThread().getName();
             
-            // (Opsional) Cetak di terminal bawah NetBeans
-            System.out.println("-> [" + namaThread + "] Sedang memproses data..."); 
             
             if (logTarget != null) {
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -90,7 +87,6 @@ public class LimasBelahKetupat extends BelahKetupat{
              this.hitungLuasPermukaan();
 
             
-            // 4. Tampilkan Hasil (Java akan memanggil tampilkanHasil() sesuai wujud aslinya berkat Polymorphism)
             if (logTarget != null) {
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     @Override
