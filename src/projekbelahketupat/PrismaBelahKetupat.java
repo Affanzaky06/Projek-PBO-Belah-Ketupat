@@ -41,12 +41,10 @@ public class PrismaBelahKetupat extends BelahKetupat{
     }
     
    public void hitungVolume() {
-        // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
         this.volume = this.luas * this.tinggiPrisma;
     }
     
     public void hitungLuasPermukaan() {
-        // Langsung comot data luas dan keliling dari dirinya sendiri (hasil warisan)
         this.luasPermukaan = ((2 * this.luas) + (this.keliling * this.tinggiPrisma));
     }
     @Override
@@ -55,10 +53,7 @@ public class PrismaBelahKetupat extends BelahKetupat{
         BelahKetupat.logTarget.append("Volume Prisma Belah Ketupat: " + this.volume+ "\n");
         BelahKetupat.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + this.luasPermukaan+ "\n");
         BelahKetupat.logTarget.append("------------------------------------\n");
-        
-//        System.out.println("Volume Prisma Belah Ketupat: " + hitungVolume());
-//        System.out.println("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan());
-//        System.out.println(" ");
+
     }
     
   @Override
