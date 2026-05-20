@@ -40,44 +40,79 @@ public class PrismaBelahKetupat extends BelahKetupat{
         return luasPermukaan; 
     }
     
-    public double hitungVolume(){
-        return super.hitungLuas()*tinggiPrisma;
+   public void hitungVolume() {
+        // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
+        this.volume = this.luas * this.tinggiPrisma;
     }
     
-    public double hitungLuasPermukaan(){
-        return ((2*super.hitungLuas()) + super.hitungKeliling()*tinggiPrisma);
+    public void hitungLuasPermukaan() {
+        // Langsung comot data luas dan keliling dari dirinya sendiri (hasil warisan)
+        this.luasPermukaan = ((2 * this.luas) + (this.keliling * this.tinggiPrisma));
     }
     @Override
     public void tampilkanHasil() {
         
-        BangunGeometri.logTarget.append("Volume Prisma Belah Ketupat: " + hitungVolume()+ "\n");
-        BangunGeometri.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan()+ "\n");
-        BangunGeometri.logTarget.append("------------------------------------\n");
+        BelahKetupat.logTarget.append("Volume Prisma Belah Ketupat: " + this.volume+ "\n");
+        BelahKetupat.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + this.luasPermukaan+ "\n");
+        BelahKetupat.logTarget.append("------------------------------------\n");
         
 //        System.out.println("Volume Prisma Belah Ketupat: " + hitungVolume());
 //        System.out.println("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan());
 //        System.out.println(" ");
     }
     
-//    @Override
-//    public void run(){
-//        try {
-//            // Mendapatkan nama thread yang sedang berjalan
-//            String namaThread = Thread.currentThread().getName();
-//            System.out.println("-> [" + namaThread + "] Sedang memproses data...");
-//            
-//            // "Mengerem" program secara acak antara 0.5 sampai 2 detik
-//            // Ini untuk mensimulasikan bahwa rumus matematikanya "berat"
-//            long waktuTunda = (long) (Math.random() * 2000) + 500; 
-//            Thread.sleep(waktuTunda);
-//            
-//            // Setelah selesai pending, baru tampilkan hasilnya
-//            tampilkanHasil();
-//            System.out.println("<- [" + namaThread + "] SELESAI!\n");
-//            
-//        } catch (InterruptedException e) {
-//            System.out.println("Proses terganggu!");
-//        }
-//    }
-        
+  @Override
+    public void run() { // ◄ Hapus kata 'abstract' dan titik koma ';'
+        try {
+            // 1. TANGKAP NAMA THREAD SEBELUM MASUK GUI (Cukup 1 kali saja)
+            final String namaThread = Thread.currentThread().getName();
+            
+            // (Opsional) Cetak di terminal bawah NetBeans
+            System.out.println("-> [" + namaThread + "] Sedang memproses data..."); 
+            
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
+                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
+                    }
+                });
+            }
+            
+            
+            int waktuTunda = 500 + (int)(Math.random() * 1000); 
+            Thread.sleep(waktuTunda);
+            
+
+     
+             super.hitungS();
+             super.hitungLuas();
+             super.hitungKeliling();
+             this.hitungVolume();
+             this.hitungLuasPermukaan();
+
+            
+            // 4. Tampilkan Hasil (Java akan memanggil tampilkanHasil() sesuai wujud aslinya berkat Polymorphism)
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Cetak nama pesertanya dulu
+                        logTarget.append("[" + namaThread + "] Berhasil finish!\n");
+                        
+                        // Panggil hasil cetakan masing-masing
+                        tampilkanHasil();
+                        
+                        // EFEK TERMINAL: Paksa layar otomatis scroll ke baris paling bawah
+                        logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 }

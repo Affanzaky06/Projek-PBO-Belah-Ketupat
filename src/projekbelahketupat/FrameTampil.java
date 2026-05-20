@@ -16,7 +16,7 @@ public class FrameTampil extends javax.swing.JFrame {
     public FrameTampil() {
         initComponents();
         
-        BangunGeometri.logTarget = jTextArea1;
+        BelahKetupat.logTarget = jTextArea1;
         
         // Bikin tampilan text area jadi hitam hijau 
         jTextArea1.setBackground(new java.awt.Color(15, 15, 15));
@@ -198,8 +198,12 @@ public class FrameTampil extends javax.swing.JFrame {
                     jTextArea1.append("-> Menghitung Belah Ketupat...\n");
                     BelahKetupat bk = new BelahKetupat();
                     
-                    bk.setD1(d1);
-                    bk.setD2(d2);
+                    bk.d1 = d1;
+                    bk.d2 = d2;
+                    
+                    bk.hitungS();
+                    bk.hitungLuas();
+                    bk.hitungKeliling();
                     
                     bk.tampilkanHasil(); // Panggil langsung method-nya
                    
@@ -209,9 +213,15 @@ public class FrameTampil extends javax.swing.JFrame {
                     jTextArea1.append("-> Menghitung Prisma Belah Ketupat...\n");
                     PrismaBelahKetupat prisma = new PrismaBelahKetupat(d1, d2, t);
                     
-                    prisma.setD1(d1);
-                    prisma.setD2(d2);
+                    prisma.d1 = d1;
+                    prisma.d2 = d2;
                     prisma.setTinggiPrisma(t);
+                    
+                    prisma.hitungS();
+                    prisma.hitungLuas();
+                    prisma.hitungKeliling();
+                    prisma.hitungVolume();
+                    prisma.hitungLuasPermukaan();
                     
                     prisma.tampilkanHasil(); // Panggil langsung method-nya
              
@@ -223,9 +233,15 @@ public class FrameTampil extends javax.swing.JFrame {
                     LimasBelahKetupat limas = new LimasBelahKetupat();
                     
                     
-                    limas.setD1(d1);
-                    limas.setD2(d2);
+                    limas.d1 = d1;
+                    limas.d2 = d2;
                     limas.setTinggiLimas(t);
+                    
+                    limas.hitungS();
+                    limas.hitungLuas();
+                    limas.hitungKeliling();
+                    limas.hitungVolume();
+                    limas.hitungLuasPermukaan();
                     
                     limas.tampilkanHasil(); // Panggil langsung method-nya
                 }
@@ -274,7 +290,7 @@ public class FrameTampil extends javax.swing.JFrame {
                         double randD2 = 10 + (Math.random() * 40);
                         double randTinggi = 10 + (Math.random() * 40);
 
-                        BangunGeometri bangun;
+                        BelahKetupat bangun;
                         String jenis = pilihanAktif.get(i % pilihanAktif.size());
 
                         if (jenis.equals("PRISMA")) {
@@ -311,7 +327,7 @@ public class FrameTampil extends javax.swing.JFrame {
                         double randD2 = 10 + (Math.random() * 40);
                         double randTinggi = 10 + (Math.random() * 40);
 
-                        BangunGeometri bangun;
+                        BelahKetupat bangun;
                         String jenis = pilihanAktif.get(i % pilihanAktif.size());
 
                         if (jenis.equals("PRISMA")) {

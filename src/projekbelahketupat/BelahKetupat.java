@@ -3,18 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package projekbelahketupat;
-
+import javax.swing.JTextArea;
 /**
  *
  * @author ACER
  */
-public class BelahKetupat extends BangunGeometri{
-    // Encapsulation
-    private double d1;
-    private double d2;
-    private double sisi;
-    private double luas;
-    private double keliling;
+public class BelahKetupat implements Runnable{
+    
+    public static JTextArea logTarget;
+    
+    public double d1;
+    public double d2;
+    public double sisi;
+    public double luas;
+    public double keliling;
     
     
     // 1. Constructor Default (Tanpa Parameter) dipakai buat bikin objek dulu, sbg contoh kalau pakai input user, maka dibuat objek dulu
@@ -29,102 +31,73 @@ public class BelahKetupat extends BangunGeometri{
         this.d2 = d2;
     }
     
-    public void setD1(double d1){
-        this.d1 = d1;
+   
+    public void hitungLuas(){
+        this.luas = 0.5*d1*d2;
     }
     
-    public void setD2(double d2){
-        this.d2 = d2;
-    }
-      
-    public double getD1(){
-        return d1;
+    public void hitungS(){
+        this.sisi = Math.sqrt(Math.pow((d1*0.5), 2) + Math.pow((d2*0.5), 2));
     }
     
-    public double getD2(){
-        return d2;
-    }
-    
-    public double getSisi(){
-        return sisi; 
-    }
-    
-    public double getLuas(){ 
-        return luas; 
-    }
-    
-    public double getKeliling(){ 
-        return keliling; 
-    }
-    
-    public double hitungLuas(){
-        return 0.5*d1*d2;
-    }
-    
-    public double hitungS(){
-        double s = Math.sqrt(Math.pow((d1*0.5), 2) + Math.pow((d2*0.5), 2));
-        return s;
-    }
-    
-    public double hitungKeliling(){
-        return 4*(hitungS());
+    public void hitungKeliling(){
+        this.keliling = 4*this.sisi;
     }
     
     public void tampilkanHasil() {
         
        
-        BangunGeometri.logTarget.append("Sisi Belah Ketupat: " + hitungS() + "\n");
-        BangunGeometri.logTarget.append("Luas Belah Ketupat: " + hitungLuas() + "\n");
-        BangunGeometri.logTarget.append("Keliling Belah Ketupat: " + hitungKeliling() + "\n");
-        BangunGeometri.logTarget.append("------------------------------------\n");
+        BelahKetupat.logTarget.append("Sisi Belah Ketupat: " + this.sisi + "\n");
+        BelahKetupat.logTarget.append("Luas Belah Ketupat: " + this.luas + "\n");
+        BelahKetupat.logTarget.append("Keliling Belah Ketupat: " + this.keliling + "\n");
+        BelahKetupat.logTarget.append("------------------------------------\n");
     }   
 
     @Override
-    public void run() {
-        final String namaThread = Thread.currentThread().getName();
+    public void run() { 
         try {
-            for (int i = 0; i < 20; i++) {
-                final int persen = i * 5;
-                
-                StringBuilder barProgres = new StringBuilder("[");
-                for (int j = 0; j < 20; j++) {
-                    barProgres.append(j <= i? "||" : "-");
-                }
-                barProgres.append("]");
-                final String tampilBar = barProgres.toString();
-                
-                if (logTarget != null) {
-                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            logTarget.append("⏳ [" + namaThread + "] " + tampilBar + " " + persen + "%\n");
-                            logTarget.setCaretPosition(logTarget.getDocument().getLength());
-                        }
-                    });
-                }
-                Thread.sleep(100); 
-            }
+            // 1. TANGKAP NAMA THREAD SEBELUM MASUK GUI (Cukup 1 kali saja)
+            final String namaThread = Thread.currentThread().getName();
             
-            // URUTAN EKSEKUSI MUTATOR (Sangat Penting!)
-            hitungS();        // Mengisi atribut 'sisi'
-            hitungLuas();     // Mengisi atribut 'luas'
-            hitungKeliling(); // Memakai atribut 'sisi' untuk mengisi 'keliling'
+            // (Opsional) Cetak di terminal bawah NetBeans
+            System.out.println("-> [" + namaThread + "] Sedang memproses data..."); 
             
             if (logTarget != null) {
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        logTarget.append(" [" + namaThread + "] FINISH!\n");
+                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
+                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
+                    }
+                });
+            }
+            
+            int waktuTunda = 500 + (int)(Math.random() * 1000); 
+            Thread.sleep(waktuTunda);
+            
+
+            hitungS();
+            hitungLuas();
+            hitungKeliling();
+
+
+            
+            // 4. Tampilkan Hasil (Java akan memanggil tampilkanHasil() sesuai wujud aslinya berkat Polymorphism)
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        logTarget.append("[" + namaThread + "] Berhasil finish!\n");
+
                         tampilkanHasil();
+                        
                         logTarget.setCaretPosition(logTarget.getDocument().getLength());
                     }
                 });
-                
             }
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
     
     
