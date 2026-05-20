@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package projekbelahketupat;
-import javax.swing.JTextArea;
+import javax.swing.*;
 /**
  *
  * @author ACER
@@ -17,7 +17,7 @@ public class BelahKetupat implements Runnable{
     public double sisi;
     public double luas;
     public double keliling;
-    
+    JProgressBar barProses;
     
     // 1. Constructor Default (Tanpa Parameter) dipakai buat bikin objek dulu, sbg contoh kalau pakai input user, maka dibuat objek dulu
     // baru diisi kemudian pake Overloading yang bawah
@@ -54,26 +54,39 @@ public class BelahKetupat implements Runnable{
     }   
 
     @Override
-    public void run() { 
+    public void run() {
+        
         try {
             // 1. TANGKAP NAMA THREAD SEBELUM MASUK GUI (Cukup 1 kali saja)
             final String namaThread = Thread.currentThread().getName();
             
-            // (Opsional) Cetak di terminal bawah NetBeans
-            System.out.println("-> [" + namaThread + "] Sedang memproses data..."); 
-            
-            if (logTarget != null) {
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
-                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
-                    }
-                });
+            for (int i = 0; i < 100; i++) {
+                final int persen = i;
+                if (this.barProses != null) {
+                    SwingUtilities.invokeLater(new Runnable (){
+                        public void run(){
+                            barProses.setValue(persen);
+                        }
+                    });
+                }
+            int waktuTunda = 10;
+            Thread.sleep(waktuTunda);
             }
             
-            int waktuTunda = 500 + (int)(Math.random() * 1000); 
-            Thread.sleep(waktuTunda);
+//            // (Opsional) Cetak di terminal bawah NetBeans
+//            System.out.println("-> [" + namaThread + "] Sedang memproses data..."); 
+//            
+//            if (logTarget != null) {
+//                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
+//                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
+//                    }
+//                });
+//            }
+            
+            
             
 
             hitungS();

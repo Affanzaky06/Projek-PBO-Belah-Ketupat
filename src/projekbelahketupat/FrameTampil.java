@@ -36,6 +36,8 @@ public class FrameTampil extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        JScrollPane2 = new javax.swing.JScrollPane();
+        panelBar = new javax.swing.JPanel();
         MenuBar = new javax.swing.JMenuBar();
         Manual = new javax.swing.JMenu();
         mCheckBoxBK = new javax.swing.JCheckBoxMenuItem();
@@ -61,6 +63,19 @@ public class FrameTampil extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout panelBarLayout = new javax.swing.GroupLayout(panelBar);
+        panelBar.setLayout(panelBarLayout);
+        panelBarLayout.setHorizontalGroup(
+            panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 339, Short.MAX_VALUE)
+        );
+        panelBarLayout.setVerticalGroup(
+            panelBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 240, Short.MAX_VALUE)
+        );
+
+        JScrollPane2.setViewportView(panelBar);
 
         Manual.setText("Input Manual");
 
@@ -122,7 +137,9 @@ public class FrameTampil extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -131,8 +148,10 @@ public class FrameTampil extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(JScrollPane2))
                 .addContainerGap())
         );
 
@@ -259,11 +278,10 @@ public class FrameTampil extends javax.swing.JFrame {
     private void RandomRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomRunActionPerformed
         // TODO add your handling code here:
      if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun di menu Random!");
+            javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun!");
             return;
         }
 
-        // 2. Ambil Status Mode
         boolean pakaiThread = cbMultithreading.isSelected();
         java.util.ArrayList<String> pilihanAktif = new java.util.ArrayList<>();
         if (rCheckBoxBK.isSelected()) pilihanAktif.add("BK");
@@ -272,97 +290,89 @@ public class FrameTampil extends javax.swing.JFrame {
         
         jTextArea1.append("\n>> RANDOM MODE | MULTITHREADING : " + (pakaiThread ? "ON" : "OFF") + "\n");
 
-        int jumlahData = 100;
+        int jumlahData = 5; 
 
-        
-        // 3. MASTER THREAD (BIAR GAK FREEZE)
-        
+        // === BERSIHKAN PANEL BAR SEBELUM MULAI ===
+        panelBar.removeAll(); 
+        panelBar.setLayout(new javax.swing.BoxLayout(panelBar, javax.swing.BoxLayout.Y_AXIS));
+
         Thread masterThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                Thread[] kumpulanThread = new Thread[jumlahData];
+                BelahKetupat[] kumpulanBangun = new BelahKetupat[jumlahData];
 
+                for (int i = 0; i < jumlahData; i++) {
+                    double randD1 = 10 + (Math.random() * 40);
+                    double randD2 = 10 + (Math.random() * 40);
+                    double randTinggi = 10 + (Math.random() * 40);
+
+                    String jenis = pilihanAktif.get(i % pilihanAktif.size());
+
+                    if (jenis.equals("PRISMA")) {
+                        kumpulanBangun[i] = new PrismaBelahKetupat(randD1, randD2, randTinggi);
+                    } else if (jenis.equals("LIMAS")) {
+                        kumpulanBangun[i] = new LimasBelahKetupat(randD1, randD2, randTinggi);
+                    } else {
+                        kumpulanBangun[i] = new BelahKetupat(randD1, randD2);
+                    }
+                    
+                    String namaThread = kumpulanBangun[i].getClass().getSimpleName() + " - " + (i+1);
+
+                    // SUNTIK PROGRESS BAR KE DALAM PANEL KIRI LAKU-LAKU
+                    javax.swing.JProgressBar pb = new javax.swing.JProgressBar(0, 100);
+                    pb.setStringPainted(true);
+                    kumpulanBangun[i].barProses = pb;     
+
+                    panelBar.add(new javax.swing.JLabel("  " + namaThread));
+                    panelBar.add(pb);
+                    panelBar.add(javax.swing.Box.createVerticalStrut(10));
+
+                    kumpulanThread[i] = new Thread(kumpulanBangun[i], namaThread);
+                }
+
+                // Refresh UI agar bar yang baru disuntikkan langsung muncul di layar
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        panelBar.revalidate();
+                        panelBar.repaint();
+                    }
+                });
+
+                // === LOGIKA EKSEKUSI ===
                 if (pakaiThread) {
-                   
-                    Thread[] kumpulanThread = new Thread[jumlahData];
-
+                    // MULTITHREAD
                     for (int i = 0; i < jumlahData; i++) {
-                        double randD1 = 10 + (Math.random() * 40);
-                        double randD2 = 10 + (Math.random() * 40);
-                        double randTinggi = 10 + (Math.random() * 40);
-
-                        BelahKetupat bangun;
-                        String jenis = pilihanAktif.get(i % pilihanAktif.size());
-
-                        if (jenis.equals("PRISMA")) {
-                            bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
-                        } else if (jenis.equals("LIMAS")) {
-                            bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
-                        } else {
-                            bangun = new BelahKetupat(randD1, randD2);
-                        }
-
-                        String namaThread = bangun.getClass().getSimpleName() + " - " + i;
-                        kumpulanThread[i] = new Thread(bangun, namaThread);
                         kumpulanThread[i].start();
                     }
-
-                    // Sinkronisasi (Tunggu semua beres)
                     for (int i = 0; i < jumlahData; i++) {
                         try { kumpulanThread[i].join(); } catch (InterruptedException e) {}
                     }
-
-                    // Lapor ke GUI kalau sudah selesai
-                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            jTextArea1.append("\n=== MULTITHREADING SELESAI ===\n");
-                            jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
-                        }
-                    });
-
                 } else {
-                   
+                    // SINGLE THREAD
                     for (int i = 0; i < jumlahData; i++) {
-                        double randD1 = 10 + (Math.random() * 40);
-                        double randD2 = 10 + (Math.random() * 40);
-                        double randTinggi = 10 + (Math.random() * 40);
-
-                        BelahKetupat bangun;
-                        String jenis = pilihanAktif.get(i % pilihanAktif.size());
-
-                        if (jenis.equals("PRISMA")) {
-                            bangun = new PrismaBelahKetupat(randD1, randD2, randTinggi);
-                        } else if (jenis.equals("LIMAS")) {
-                            bangun = new LimasBelahKetupat(randD1, randD2, randTinggi);
-                        } else {
-                            bangun = new BelahKetupat(randD1, randD2);
-                        }
-
-                        // Ganti nama Master Thread sementara sesuai objek yang lagi diproses
-                        Thread.currentThread().setName(bangun.getClass().getSimpleName() + " - " + i);
-                        
-                        // Eksekusi langsung (nunggu selesai baru lanjut loop berikutnya)
-                        bangun.run();
+                        String namaAsli = Thread.currentThread().getName(); 
+                        Thread.currentThread().setName(kumpulanBangun[i].getClass().getSimpleName() + " - " + (i+1));
+                        kumpulanBangun[i].run(); 
+                        Thread.currentThread().setName(namaAsli); 
                     }
-
-                    // Lapor ke GUI kalau sudah selesai
-                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            jTextArea1.append("\n=== SINGLE THREAD SELESAI ===\n");
-                            jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
-                        }
-                    });
                 }
+
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        jTextArea1.append("\n=== PROSES SELESAI ===\n");
+                        jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
+                    }
+                });
             } 
         }); 
 
-        // 4. JALANKAN MASTER THREAD-NYA!
         masterThread.start();
     }//GEN-LAST:event_RandomRunActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane JScrollPane2;
     private javax.swing.JMenu Manual;
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenu Random;
@@ -375,6 +385,7 @@ public class FrameTampil extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem mCheckBoxBK;
     private javax.swing.JCheckBoxMenuItem mCheckBoxLimas;
     private javax.swing.JCheckBoxMenuItem mCheckBoxPrisma;
+    private javax.swing.JPanel panelBar;
     private javax.swing.JCheckBoxMenuItem rCheckBoxBK;
     private javax.swing.JCheckBoxMenuItem rCheckBoxLimas;
     private javax.swing.JCheckBoxMenuItem rCheckBoxPrisma;

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package projekbelahketupat;
+import javax.swing.*;
 
 /**
  *
@@ -65,17 +66,30 @@ public class PrismaBelahKetupat extends BelahKetupat{
     public void run() {
         try {
             final String namaThread = Thread.currentThread().getName();
+            
+            for (int i = 0; i < 100; i++) {
+                final int persen = i;
+                if (this.barProses != null) {
+                    SwingUtilities.invokeLater(new Runnable (){
+                        public void run(){
+                            barProses.setValue(persen);
+                        }
+                    });
+                }
+                int waktuTunda = 10;
+            Thread.sleep(waktuTunda);
+            }
            
             
-            if (logTarget != null) {
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
-                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
-                    }
-                });
-            }
+//            if (logTarget != null) {
+//                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
+//                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
+//                    }
+//                });
+//            }
             
             
             int waktuTunda = 500 + (int)(Math.random() * 1000); 
