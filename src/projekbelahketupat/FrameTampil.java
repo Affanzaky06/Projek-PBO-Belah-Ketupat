@@ -163,7 +163,7 @@ public class FrameTampil extends javax.swing.JFrame {
         
         // 1. Cek apakah ada yang dicentang
         if (!mCheckBoxBK.isSelected() && !mCheckBoxPrisma.isSelected() && !mCheckBoxLimas.isSelected()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun di menu Input Manual!");
+            tampilkanNotif("Centang minimal satu bangun di menu Input Manual!");
             return;
         }
 
@@ -269,7 +269,7 @@ public class FrameTampil extends javax.swing.JFrame {
                 jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
 
             } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Gagal! " +  e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+               tampilkanNotif("Gagal! " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
     
@@ -278,7 +278,7 @@ public class FrameTampil extends javax.swing.JFrame {
     private void RandomRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomRunActionPerformed
         // TODO add your handling code here:
      if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Centang minimal satu bangun!");
+            tampilkanNotif("Centang minimal satu bangun!");
             return;
         }
 
@@ -369,7 +369,14 @@ public class FrameTampil extends javax.swing.JFrame {
 
         masterThread.start();
     }//GEN-LAST:event_RandomRunActionPerformed
+    public void tampilkanNotif(String pesan) {
+        javax.swing.JOptionPane.showMessageDialog(this, pesan, "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    }
 
+    // Method versi 2 (OVERLOADING): Butuh pesan, judul spesifik, dan tipe ikon error
+    public void tampilkanNotif(String pesan, String judul, int tipeIkon) {
+        javax.swing.JOptionPane.showMessageDialog(this, pesan, judul, tipeIkon);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane JScrollPane2;

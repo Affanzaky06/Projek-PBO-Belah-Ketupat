@@ -80,18 +80,8 @@ public class PrismaBelahKetupat extends BelahKetupat{
                 Thread.sleep(waktuTunda);
             }
            
-            
-//            if (logTarget != null) {
-//                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
-//                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
-//                    }
-//                });
-//            }
-            
-            
+           
+          
             int waktuTunda = 500 + (int)(Math.random() * 1000); 
             Thread.sleep(waktuTunda);
             

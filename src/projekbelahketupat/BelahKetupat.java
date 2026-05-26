@@ -72,25 +72,10 @@ public class BelahKetupat implements Runnable{
             int waktuTunda =  10 + (int)(Math.random() * 40);
             Thread.sleep(waktuTunda);
             }
-            
-//            // (Opsional) Cetak di terminal bawah NetBeans
-//            System.out.println("-> [" + namaThread + "] Sedang memproses data..."); 
-//            
-//            if (logTarget != null) {
-//                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        logTarget.append("-> [" + namaThread + "] Sedang memproses data...\n");
-//                        logTarget.setCaretPosition(logTarget.getDocument().getLength()); // Auto-scroll
-//                    }
-//                });
-//            }
 
             hitungS();
             hitungLuas();
             hitungKeliling();
-
-
             
             // 4. Tampilkan Hasil (Java akan memanggil tampilkanHasil() sesuai wujud aslinya berkat Polymorphism)
 
@@ -108,7 +93,7 @@ public class BelahKetupat implements Runnable{
                             tampilkanHasil();
                         
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
-                        }
+                          }
                         
                     }
                 });
