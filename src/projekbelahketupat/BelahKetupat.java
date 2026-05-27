@@ -17,7 +17,9 @@ public class BelahKetupat implements Runnable{
     public double sisi;
     public double luas;
     public double keliling;
-    JProgressBar barProses;
+    public JProgressBar barProses;
+    public Thread targetInterupsi; 
+    public int waktuTungguSebelumMaju = 0;
     
     // 1. Constructor Default (Tanpa Parameter) dipakai buat bikin objek dulu, sbg contoh kalau pakai input user, maka dibuat objek dulu
     // baru diisi kemudian pake Overloading yang bawah
@@ -60,6 +62,32 @@ public class BelahKetupat implements Runnable{
             // 1. TANGKAP NAMA THREAD SEBELUM MASUK GUI (Cukup 1 kali saja)
             final String namaThread = Thread.currentThread().getName();
             
+            // 1. FASE MENUNGGU GILIRAN MAJU (Skenario Dosen)
+            if (waktuTungguSebelumMaju > 0) {
+                Thread.sleep(waktuTungguSebelumMaju);
+            }
+
+            // 2. FASE EKSEKUSI INTERUPSI KEPADA KORBAN
+            if (targetInterupsi != null && targetInterupsi.isAlive()) {
+                final String namaKorban = targetInterupsi.getName();
+                if (logTarget != null) {
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            logTarget.append("\n 🚨 [" + namaThread + "] MENGINTERUPSI [" + namaKorban + "]!\n");
+                        }
+                    });
+                }
+                targetInterupsi.interrupt(); // Potong jalur korban!
+            }
+
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        logTarget.append("-> Thread hitung " + namaThread + " memulai perhitungan...\n");
+                    }
+                });
+            }
+            
             for (int i = 0; i < 100; i++) {
                 final int persen = i;
                 if (this.barProses != null) {
@@ -69,6 +97,12 @@ public class BelahKetupat implements Runnable{
                         }
                     });
                 }
+                
+            if (Thread.currentThread().isInterrupted()) {
+                    throw new InterruptedException(); // Jika ya, langsung lempar ke zona catch!
+                }
+            
+            
             int waktuTunda =  10 + (int)(Math.random() * 40);
             Thread.sleep(waktuTunda);
             }
@@ -98,8 +132,16 @@ public class BelahKetupat implements Runnable{
                     }
                 });
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            final String namaMati = Thread.currentThread().getName();
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        logTarget.append("[X] Perhitungan " + namaMati + " TERHENTI DI TENGAH JALAN KARENA DIINTERUPSI!\n");
+                        logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                    }
+                });
+            }
         }
     }
     

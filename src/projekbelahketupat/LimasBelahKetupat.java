@@ -66,6 +66,30 @@ public class LimasBelahKetupat extends BelahKetupat{
         try {
             final String namaThread = Thread.currentThread().getName();
             
+            if (waktuTungguSebelumMaju > 0) {
+                Thread.sleep(waktuTungguSebelumMaju);
+            }
+
+            if (targetInterupsi != null && targetInterupsi.isAlive()) {
+                final String namaKorban = targetInterupsi.getName();
+                if (logTarget != null) {
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            logTarget.append("\n 🚨 [" + namaThread + "] MENGINTERUPSI [" + namaKorban + "]!\n");
+                        }
+                    });
+                }
+                targetInterupsi.interrupt(); 
+            }
+
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        logTarget.append("-> Thread hitung " + namaThread + " memulai perhitungan...\n");
+                    }
+                });
+            }
+            
             for (int i = 0; i < 100; i++) {
                 final int persen = i;
                 if (this.barProses != null) {
@@ -110,8 +134,16 @@ public class LimasBelahKetupat extends BelahKetupat{
                     }
                 });
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            final String namaMati = Thread.currentThread().getName();
+            if (logTarget != null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        logTarget.append("[X] Perhitungan " + namaMati + " TERHENTI DI TENGAH JALAN KARENA DIINTERUPSI!\n");
+                        logTarget.setCaretPosition(logTarget.getDocument().getLength());
+                    }
+                });
+            }
         }
     }
     

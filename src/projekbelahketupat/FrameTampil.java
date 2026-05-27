@@ -50,6 +50,8 @@ public class FrameTampil extends javax.swing.JFrame {
         rCheckBoxPrisma = new javax.swing.JCheckBoxMenuItem();
         cbMultithreading = new javax.swing.JCheckBoxMenuItem();
         RandomRun = new javax.swing.JMenuItem();
+        jMenuInterrupt = new javax.swing.JMenu();
+        RunInterrupt = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Program Belah Ketupat");
@@ -128,6 +130,18 @@ public class FrameTampil extends javax.swing.JFrame {
         Random.add(RandomRun);
 
         MenuBar.add(Random);
+
+        jMenuInterrupt.setText("Interrupt");
+
+        RunInterrupt.setText("Run");
+        RunInterrupt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RunInterruptActionPerformed(evt);
+            }
+        });
+        jMenuInterrupt.add(RunInterrupt);
+
+        MenuBar.add(jMenuInterrupt);
 
         setJMenuBar(MenuBar);
 
@@ -369,6 +383,100 @@ public class FrameTampil extends javax.swing.JFrame {
 
         masterThread.start();
     }//GEN-LAST:event_RandomRunActionPerformed
+
+    private void RunInterruptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunInterruptActionPerformed
+        // TODO add your handling code here:
+         jTextArea1.append("\n>> MEMULAI DEMO SKENARIO DOSEN (DENGAN PROGRESS BAR) <<\n");
+        
+        // 1. Bersihkan panel kiri dan tata ulang komponen secara vertikal
+        panelBar.removeAll(); 
+        panelBar.setLayout(new javax.swing.BoxLayout(panelBar, javax.swing.BoxLayout.Y_AXIS));
+
+        Thread masterThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                
+                // 2. Instansiasi 3 Aktor Utama
+                BelahKetupat bk = new BelahKetupat(20, 30);
+                PrismaBelahKetupat prisma = new PrismaBelahKetupat(20, 30, 40);
+                LimasBelahKetupat limas = new LimasBelahKetupat(20, 30, 40);
+
+                Thread tBK = new Thread(bk, "Belah Ketupat");
+                Thread tPrisma = new Thread(prisma, "Prisma Belah Ketupat");
+                Thread tLimas = new Thread(limas, "Limas");
+
+                // 3. Bikin 3 Progress Bar Fisik & Suntikkan ke Objek Komputasi
+                javax.swing.JProgressBar pbBK = new javax.swing.JProgressBar(0, 100);
+                javax.swing.JProgressBar pbPrisma = new javax.swing.JProgressBar(0, 100);
+                javax.swing.JProgressBar pbLimas = new javax.swing.JProgressBar(0, 100);
+
+                pbBK.setStringPainted(true);
+                pbPrisma.setStringPainted(true);
+                pbLimas.setStringPainted(true);
+
+                bk.barProses = pbBK;
+                prisma.barProses = pbPrisma;
+                limas.barProses = pbLimas;
+
+                // 4. Tempelkan Label Nama dan Bar ke Panel Kiri Visual
+                panelBar.add(new javax.swing.JLabel("  Belah Ketupat"));
+                panelBar.add(pbBK);
+                panelBar.add(javax.swing.Box.createVerticalStrut(10));
+
+                panelBar.add(new javax.swing.JLabel("  Prisma Belah Ketupat"));
+                panelBar.add(pbPrisma);
+                panelBar.add(javax.swing.Box.createVerticalStrut(10));
+
+                panelBar.add(new javax.swing.JLabel("  Limas"));
+                panelBar.add(pbLimas);
+                panelBar.add(javax.swing.Box.createVerticalStrut(10));
+
+                // Gambar ulang panel kiri agar komponennya langsung muncul di monitor
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        panelBar.revalidate();
+                        panelBar.repaint();
+                    }
+                });
+
+                // 5. ATUR JADWAL KOREOGRAFI KUDETA (TIMING CRITICAL)
+                // Kecepatan bar kita set 40ms per persen. Artinya 100% butuh waktu 4 detik.
+                
+                // Belah Ketupat lari instan tanpa menunggu siapa-siapa
+                bk.waktuTungguSebelumMaju = 0;
+                bk.targetInterupsi = null;
+
+                // Prisma nunggu 1.5 detik (Saat bar BK menyentuh kisaran ~35%), bangun lalu bunuh BK!
+                prisma.waktuTungguSebelumMaju = 1500;
+                prisma.targetInterupsi = tBK;
+
+                // Limas nunggu 3.2 detik (Saat bar Prisma menyentuh kisaran ~40%), bangun lalu bunuh Prisma!
+                limas.waktuTungguSebelumMaju = 3200;
+                limas.targetInterupsi = tPrisma;
+
+                // 6. PELEPASAN TOTAL!
+                tBK.start();
+                tPrisma.start();
+                tLimas.start();
+
+                // Sinkronisasi Master Thread
+                try {
+                    tBK.join();
+                    tPrisma.join();
+                    tLimas.join();
+                } catch (InterruptedException e) {}
+
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        jTextArea1.append("\n=== SELESAI ===\n");
+                        jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
+                    }
+                });
+            }
+        });
+
+        masterThread.start();
+    }//GEN-LAST:event_RunInterruptActionPerformed
     public void tampilkanNotif(String pesan) {
         javax.swing.JOptionPane.showMessageDialog(this, pesan, "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }
@@ -384,9 +492,11 @@ public class FrameTampil extends javax.swing.JFrame {
     private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenu Random;
     private javax.swing.JMenuItem RandomRun;
+    private javax.swing.JMenuItem RunInterrupt;
     private javax.swing.JCheckBoxMenuItem cbMultithreading;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMenuInput;
+    private javax.swing.JMenu jMenuInterrupt;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JCheckBoxMenuItem mCheckBoxBK;
