@@ -47,13 +47,6 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
         this.keliling = 4*sisi;
     }
     
-    @Override
-    public void tampilkanHasil() {
-        BelahKetupat.logTarget.append("Sisi Belah Ketupat: " + this.sisi + "\n");
-        BelahKetupat.logTarget.append("Luas Belah Ketupat: " + this.luas + "\n");
-        BelahKetupat.logTarget.append("Keliling Belah Ketupat: " + this.keliling + "\n");
-        BelahKetupat.logTarget.append("------------------------------------\n");
-    }   
 
     @Override
     public void run() {
@@ -92,7 +85,6 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
                         if (logTarget != null) {
                             logTarget.append("[" + namaThread + "] Berhasil finish!\n");
 
-                            tampilkanHasil();
                         
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
                           }

@@ -233,13 +233,13 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     bk.d2 = d2;
 
                     // 3. Tampilkan hasilnya
-                    bk.tampilkanHasil();
+                    tampilkanHasil(bk);
                 }
                 
                 if (mCheckBoxPrisma.isSelected()) {
                     jTextArea1.append("-> Menghitung Prisma Belah Ketupat...\n");
 
-                     PrismaBelahKetupat prisma = new PrismaBelahKetupat();
+                    PrismaBelahKetupat prisma = new PrismaBelahKetupat();
 
                     // 2. IMPLEMENTASI METHOD OVERLOADING BERPARAMETER
                     // d1 & d2 belum diset ke objek, langsung lempar lewat parameter
@@ -255,7 +255,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     prisma.setTinggiPrisma(t);
 
                     // 4. Tampilkan Hasil
-                    prisma.tampilkanHasil();
+                    tampilkanHasil(prisma);
                 }
                 
                 if (mCheckBoxLimas.isSelected()) {
@@ -276,7 +276,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     limas.d2 = d2;
                     limas.setTinggiLimas(t);
 
-                    limas.tampilkanHasil();
+                    tampilkanHasil(limas);
                 }
                 
                 // Efek autoscroll ke bawah
@@ -373,12 +373,45 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     for (int i = 0; i < jumlahData; i++) {
                         try { kumpulanThread[i].join(); } catch (InterruptedException e) {}
                     }
+                    
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            for (int i = 0; i < jumlahData; i++) {
+                                // Kita deteksi wujud aslinya, lalu kita ubah wujudnya (Casting) agar cocok dengan method
+                                if (kumpulanBangun[i] instanceof PrismaBelahKetupat) {
+                                    tampilkanHasil((PrismaBelahKetupat) kumpulanBangun[i]);
+                                } else if (kumpulanBangun[i] instanceof LimasBelahKetupat) {
+                                    tampilkanHasil((LimasBelahKetupat) kumpulanBangun[i]);
+                                } else if (kumpulanBangun[i] instanceof BelahKetupat) { // Gunakan else-if agar eksplisit
+                                    tampilkanHasil((BelahKetupat) kumpulanBangun[i]);
+                                }
+                            }
+                        }
+                    });
+                    
                 } else {
                     // SINGLE THREAD
                     for (int i = 0; i < jumlahData; i++) {
+                        final int index = i; // ◄ Penting: Simpan index agar bisa dibaca oleh SwingUtilities
                         String namaAsli = Thread.currentThread().getName(); 
-                        Thread.currentThread().setName(kumpulanBangun[i].getClass().getSimpleName() + " - " + (i+1));
-                        kumpulanBangun[i].run(); 
+                        Thread.currentThread().setName(kumpulanBangun[index].getClass().getSimpleName() + " - " + (index+1));
+                        
+                        // 1. Jalankan proses perhitungan 1 bangun ruang sampai selesai
+                        kumpulanBangun[index].run(); 
+                        
+                        // 2. Begitu selesai, Main Class LANGSUNG mencetak hasilnya!
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                if (kumpulanBangun[index] instanceof PrismaBelahKetupat) {
+                                    tampilkanHasil((PrismaBelahKetupat) kumpulanBangun[index]);
+                                } else if (kumpulanBangun[index] instanceof LimasBelahKetupat) {
+                                    tampilkanHasil((LimasBelahKetupat) kumpulanBangun[index]);
+                                } else if (kumpulanBangun[index] instanceof BelahKetupat) {
+                                    tampilkanHasil((BelahKetupat) kumpulanBangun[index]);
+                                }
+                            }
+                        });
+                        
                         Thread.currentThread().setName(namaAsli); 
                     }
                 }
@@ -386,7 +419,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
                         jTextArea1.append("\n=== PROSES SELESAI ===\n");
-                        jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
+                        jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());  
                     }
                 });
             } 
@@ -401,6 +434,27 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
     // Method versi 2 (OVERLOADING): Butuh pesan, judul spesifik, dan tipe ikon error
     public void tampilkanNotif(String pesan, String judul, int tipeIkon) {
         javax.swing.JOptionPane.showMessageDialog(this, pesan, judul, tipeIkon);
+    }
+    
+    public void tampilkanHasil(BelahKetupat bk) {
+        jTextArea1.append("Sisi: " + bk.sisi + "\n");
+        jTextArea1.append("Luas: " + bk.luas + "\n");
+        jTextArea1.append("Keliling: " + bk.keliling + "\n");
+        jTextArea1.append("------------------------------------\n");
+    }
+
+// Versi 2: LimasBelahKetupat
+    public void tampilkanHasil(LimasBelahKetupat l) {
+        jTextArea1.append("Volume Limas: " + l.getVolume() + "\n");
+        jTextArea1.append("Luas Permukaan Limas: " + l.getLuasPermukaan() + "\n");
+        jTextArea1.append("------------------------------------\n");
+    }
+
+// Versi 3: PrismaBelahKetupat
+    public void tampilkanHasil(PrismaBelahKetupat p) {
+        jTextArea1.append("Volume Prisma: " + p.getVolume() + "\n");
+        jTextArea1.append("Luas Permukaan Prisma: " + p.getLuasPermukaan() + "\n");
+        jTextArea1.append("------------------------------------\n");
     }
     
     public static void main(String[] args) {

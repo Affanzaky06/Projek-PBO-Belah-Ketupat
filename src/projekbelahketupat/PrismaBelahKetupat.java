@@ -51,14 +51,16 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
         
         this.luasPermukaan = ((2 * luas) + (keliling * tinggiPrisma));
     }
-    @Override
-    public void tampilkanHasil() {
-        
-        BelahKetupat.logTarget.append("Volume Prisma Belah Ketupat: " + this.volume+ "\n");
-        BelahKetupat.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + this.luasPermukaan+ "\n");
-        BelahKetupat.logTarget.append("------------------------------------\n");
-        
+
+    public double getVolume() {
+        return volume;
     }
+
+    public double getLuasPermukaan() {
+        return luasPermukaan;
+    }
+    
+    
     
     @Override
     public void run() {
@@ -102,9 +104,7 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
                         
                         if (logTarget != null) {
                             logTarget.append("[" + namaThread + "] Berhasil finish!\n");
-
-                            tampilkanHasil();
-                        
+    
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
                         }
                         

@@ -45,15 +45,18 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
         double tinggiSegitigaTegak = Math.sqrt(Math.pow(tinggiLimas, 2) + Math.pow(sisi / 2, 2));
         this.luasPermukaan = luas + (4 * (0.5 * sisi * tinggiSegitigaTegak));
     }
-    @Override
-    public void tampilkanHasil() {
-        
-        BelahKetupat.logTarget.append("Volume Limas Belah Ketupat: " + this.volume + "\n");
-        BelahKetupat.logTarget.append("Luas Permukaan Limas Belah Ketupat: " + this.luasPermukaan + "\n");
-        BelahKetupat.logTarget.append("------------------------------------\n");
-        
 
+    public double getVolume() {
+        return volume;
     }
+
+    public double getLuasPermukaan() {
+        return luasPermukaan;
+    }
+    
+    
+    
+
     
 @Override
     public void run() { 
@@ -96,7 +99,7 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
                         if (logTarget != null) {
                             logTarget.append("[" + namaThread + "] Berhasil finish!\n");
 
-                            tampilkanHasil();
+
                         
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
                         }

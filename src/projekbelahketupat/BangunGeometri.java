@@ -13,7 +13,7 @@ import javax.swing.*;
 public abstract class BangunGeometri implements Runnable{
     public static JTextArea logTarget;
     public JProgressBar barProses;
-    public abstract void tampilkanHasil();
+    
     @Override
     public abstract void run();
 }
