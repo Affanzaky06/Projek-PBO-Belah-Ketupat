@@ -314,7 +314,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
             @Override
             public void run() {
                 Thread[] kumpulanThread = new Thread[jumlahData];
-                BelahKetupat[] kumpulanBangun = new BelahKetupat[jumlahData];
+                BangunGeometri[] kumpulanBangun = new BangunGeometri[jumlahData];
 
                 for (int i = 0; i < jumlahData; i++) {
                     double randD1 = 10 + (Math.random() * 40);
