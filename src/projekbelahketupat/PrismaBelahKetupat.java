@@ -9,20 +9,15 @@ import javax.swing.*;
  *
  * @author ACER
  */
-public class PrismaBelahKetupat extends BelahKetupat{
+public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     private double tinggiPrisma;
     private double volume;
     private double luasPermukaan;
     
-   
+    
     public PrismaBelahKetupat(){
         super();
         this.tinggiPrisma = 0;
-    }
-    
-    public PrismaBelahKetupat(double d1, double d2, double tinggiPrisma){
-        super(d1,d2);
-        this.tinggiPrisma = tinggiPrisma;
     }
     
     public void setTinggiPrisma(double tinggiPrisma){
@@ -33,22 +28,29 @@ public class PrismaBelahKetupat extends BelahKetupat{
         return tinggiPrisma;
     }
     
-    public double getVolume(){ 
-        return volume; 
-    }
-    
-    public double getLuasPermukaan(){ 
-        return luasPermukaan; 
-    }
-    
-   public void hitungVolume() {
+    public void hitungVolume() {
         // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
         this.volume = this.luas * this.tinggiPrisma;
+    }
+   
+    public void hitungVolume(double luas, double tinggiPrisma) {
+        // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
+        this.volume = luas * tinggiPrisma;
+    }
+   
+    public void hitungVolume(double d1, double d2, double tinggiPrisma) {
+        
+        this.volume = super.hitungLuas(d1, d2) * tinggiPrisma;
     }
     
     public void hitungLuasPermukaan() {
         // Langsung comot data luas dan keliling dari dirinya sendiri (hasil warisan)
         this.luasPermukaan = ((2 * this.luas) + (this.keliling * this.tinggiPrisma));
+    }
+    
+    public void hitungLuasPermukaan(double luas, double keliling, double tinggiPrisma) {
+        
+        this.luasPermukaan = ((2 * luas) + (keliling * tinggiPrisma));
     }
     @Override
     public void tampilkanHasil() {
@@ -57,12 +59,9 @@ public class PrismaBelahKetupat extends BelahKetupat{
         BelahKetupat.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + this.luasPermukaan+ "\n");
         BelahKetupat.logTarget.append("------------------------------------\n");
         
-//        System.out.println("Volume Prisma Belah Ketupat: " + hitungVolume());
-//        System.out.println("Luas Permukaan Prisma Belah Ketupat: " + hitungLuasPermukaan());
-//        System.out.println(" ");
     }
     
-  @Override
+    @Override
     public void run() {
         try {
             final String namaThread = Thread.currentThread().getName();
@@ -87,7 +86,7 @@ public class PrismaBelahKetupat extends BelahKetupat{
             
 
      
-             super.hitungS();
+             super.hitungSisi();
              super.hitungLuas();
              super.hitungKeliling();
              this.hitungVolume();

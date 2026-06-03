@@ -8,12 +8,12 @@ package projekbelahketupat;
  *
  * @author ACER
  */
-public class FrameTampil extends javax.swing.JFrame {
+public class main extends javax.swing.JFrame {
 
     /**
      * Creates new form FrameTampil
      */
-    public FrameTampil() {
+    public main() {
         initComponents();
         
         BelahKetupat.logTarget = jTextArea1;
@@ -215,35 +215,52 @@ public class FrameTampil extends javax.swing.JFrame {
                 
                 if (mCheckBoxBK.isSelected()) {
                     jTextArea1.append("-> Menghitung Belah Ketupat...\n");
+
+                    // 1. Buat objek pakai constructor default (tanpa parameter)
                     BelahKetupat bk = new BelahKetupat();
-                    
+
+                    // 2. IMPLEMENTASI METHOD OVERLOADING DI SINI!
+                    // Kita langsung lempar nilai d1 dan d2 dari JTextField ke method
+                    bk.hitungSisi(d1, d2);
+                    bk.hitungLuas(d1, d2);
+
+                    // Karena hitungSisi(d1, d2) sudah mengisi variabel bk.sisi di dalam objek,
+                    // kita bisa melempar nilai bk.sisi tersebut ke hitungKeliling
+                    bk.hitungKeliling(bk.sisi);
+
+                    // Opsional: Tetap simpan nilai d1 & d2 ke objek agar tidak 0 jika ingin dicetak di tampilkanHasil()
                     bk.d1 = d1;
                     bk.d2 = d2;
-                    
-                    bk.hitungS();
-                    bk.hitungLuas();
-                    bk.hitungKeliling();
-                    
-                    bk.tampilkanHasil(); // Panggil langsung method-nya
-                   
+
+                    // 3. Tampilkan hasilnya
+                    bk.tampilkanHasil();
                 }
                 
                 if (mCheckBoxPrisma.isSelected()) {
                     jTextArea1.append("-> Menghitung Prisma Belah Ketupat...\n");
-                    PrismaBelahKetupat prisma = new PrismaBelahKetupat(d1, d2, t);
-                    
+
+                    // 1. Buat objek pakai constructor default
+                    PrismaBelahKetupat prisma = new PrismaBelahKetupat();
+
+                    // 2. Isi data yang wajib disimpan di objek (opsional untuk d1 & d2, wajib untuk variabel private lewat setter)
                     prisma.d1 = d1;
                     prisma.d2 = d2;
-                    prisma.setTinggiPrisma(t);
-                    
-                    prisma.hitungS();
-                    prisma.hitungLuas();
-                    prisma.hitungKeliling();
-                    prisma.hitungVolume();
-                    prisma.hitungLuasPermukaan();
-                    
-                    prisma.tampilkanHasil(); // Panggil langsung method-nya
-             
+                    prisma.setTinggiPrisma(t); // WAJIB pakai setter karena private
+
+                    // 3. IMPLEMENTASI METHOD OVERLOADING
+                    prisma.hitungSisi(d1, d2);
+                    prisma.hitungLuas(d1, d2);
+                    prisma.hitungKeliling(prisma.sisi); // pakai parameter sisi yang baru saja dihitung
+
+                    // Pakai overload hitungVolume yang butuh (luas, tinggi) atau (d1, d2, tinggi)
+                    // Di sini kita pakai yang (d1, d2, tinggi) sesuai method yang kamu buat
+                    prisma.hitungVolume(d1, d2, t);
+
+                    // Pakai overload hitungLuasPermukaan yang butuh (luas, keliling, tinggi)
+                    prisma.hitungLuasPermukaan(prisma.luas, prisma.keliling, t);
+
+                    // 4. Tampilkan Hasil
+                    prisma.tampilkanHasil();
                 }
                 
                 if (mCheckBoxLimas.isSelected()) {
@@ -256,7 +273,7 @@ public class FrameTampil extends javax.swing.JFrame {
                     limas.d2 = d2;
                     limas.setTinggiLimas(t);
                     
-                    limas.hitungS();
+                    limas.hitungSisi();
                     limas.hitungLuas();
                     limas.hitungKeliling();
                     limas.hitungVolume();
@@ -310,11 +327,22 @@ public class FrameTampil extends javax.swing.JFrame {
                     String jenis = pilihanAktif.get(i % pilihanAktif.size());
 
                     if (jenis.equals("PRISMA")) {
-                        kumpulanBangun[i] = new PrismaBelahKetupat(randD1, randD2, randTinggi);
+                        PrismaBelahKetupat prisma = new PrismaBelahKetupat();
+                        prisma.d1 = randD1;
+                        prisma.d2 = randD2;
+                        prisma.setTinggiPrisma(randTinggi);
+                        kumpulanBangun[i] = prisma;
                     } else if (jenis.equals("LIMAS")) {
-                        kumpulanBangun[i] = new LimasBelahKetupat(randD1, randD2, randTinggi);
+                        LimasBelahKetupat limas = new LimasBelahKetupat();
+                        limas.d1 = randD1;
+                        limas.d2 = randD2;
+                        limas.setTinggiLimas(randTinggi);
+                        kumpulanBangun[i] = limas;
                     } else {
-                        kumpulanBangun[i] = new BelahKetupat(randD1, randD2);
+                        BelahKetupat bk = new BelahKetupat();
+                        bk.d1 = randD1;
+                        bk.d2 = randD2;
+                        kumpulanBangun[i] = bk;
                     }
                     
                     String namaThread = kumpulanBangun[i].getClass().getSimpleName() + " - " + (i+1);
@@ -376,6 +404,22 @@ public class FrameTampil extends javax.swing.JFrame {
     // Method versi 2 (OVERLOADING): Butuh pesan, judul spesifik, dan tipe ikon error
     public void tampilkanNotif(String pesan, String judul, int tipeIkon) {
         javax.swing.JOptionPane.showMessageDialog(this, pesan, judul, tipeIkon);
+    }
+    
+    public static void main(String[] args) {
+      
+        System.out.println("loding...");
+        System.out.println("Membuka Antarmuka GUI...");
+
+        // Memanggil dan memunculkan main (GUI) ke layar secara aman
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                // Instansiasi objek main lalu buat menjadi terlihat (visible)
+                new main().setVisible(true);
+            }
+        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

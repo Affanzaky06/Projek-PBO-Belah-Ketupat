@@ -9,7 +9,7 @@ import javax.swing.*;
  *
  * @author ACER
  */
-public class LimasBelahKetupat extends BelahKetupat{
+public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     
     private double tinggiLimas;
     private double volume;
@@ -20,10 +20,6 @@ public class LimasBelahKetupat extends BelahKetupat{
         this.tinggiLimas = 0;
     }
     
-    public LimasBelahKetupat(double d1, double d2, double tinggiLimas){
-        super(d1, d2);
-        this.tinggiLimas = tinggiLimas;
-    }
     
     public void setTinggiLimas(double tinggiLimas){
         this.tinggiLimas = tinggiLimas;
@@ -32,24 +28,23 @@ public class LimasBelahKetupat extends BelahKetupat{
     public double getTinggiLimas(){
     return tinggiLimas;
     }
-    
-    public double getVolume(){ 
-        return volume; 
-    }
-    
-    public double getLuasPermukaan(){ 
-        return luasPermukaan; 
-    }
-    
-    
-    
+        
     public void hitungVolume() {
-        this.volume = (1.0 / 3.0) * this.luas * tinggiLimas;
+        this.volume = (1.0 / 3.0) * this.luas * this.tinggiLimas;
+    }
+    
+    public void hitungVolume(double luas, double tinggiLimas) {
+        this.volume = (1.0 / 3.0) * luas * tinggiLimas;
     }
     
     public void hitungLuasPermukaan() {
-        double tinggiSegitigaTegak = Math.sqrt(Math.pow(tinggiLimas, 2) + Math.pow(this.sisi / 2, 2));
+        double tinggiSegitigaTegak = Math.sqrt(Math.pow(this.tinggiLimas, 2) + Math.pow(this.sisi / 2, 2));
         this.luasPermukaan = this.luas + (4 * (0.5 * this.sisi * tinggiSegitigaTegak));
+    }
+    
+    public void hitungLuasPermukaan(double tinggiLimas, double sisi, double luas) {
+        double tinggiSegitigaTegak = Math.sqrt(Math.pow(tinggiLimas, 2) + Math.pow(sisi / 2, 2));
+        this.luasPermukaan = luas + (4 * (0.5 * sisi * tinggiSegitigaTegak));
     }
     @Override
     public void tampilkanHasil() {
@@ -83,7 +78,7 @@ public class LimasBelahKetupat extends BelahKetupat{
             Thread.sleep(waktuTunda);
             
 
-             super.hitungS();
+             super.hitungSisi();
              super.hitungLuas();
              super.hitungKeliling();
              this.hitungVolume();

@@ -8,35 +8,35 @@ import javax.swing.*;
  *
  * @author ACER
  */
-public class BelahKetupat implements Runnable{
-    
-    public static JTextArea logTarget;
-    
+public class BelahKetupat extends BangunGeometri implements Runnable{
+  
     public double d1;
     public double d2;
     public double sisi;
     public double luas;
-    public double keliling;
-    JProgressBar barProses;
+    public double keliling;   
     
     // 1. Constructor Default (Tanpa Parameter) dipakai buat bikin objek dulu, sbg contoh kalau pakai input user, maka dibuat objek dulu
     // baru diisi kemudian pake Overloading yang bawah
     public BelahKetupat(){
         this.d1 = 0;
         this.d2 = 0;
-    }
+    } // tidak ada
     
-    public BelahKetupat(double d1, double d2){
-        this.d1 = d1;
-        this.d2 = d2;
-    }
-    
-   
     public void hitungLuas(){
         this.luas = 0.5*d1*d2;
     }
     
-    public void hitungS(){
+    public double hitungLuas(double d1, double d2) {
+        this.luas = 0.5*d1*d2;
+        return this.luas;
+    }
+    
+    public void hitungSisi(){
+        this.sisi = Math.sqrt(Math.pow((this.d1*0.5), 2) + Math.pow((this.d2*0.5), 2));
+    }
+    
+    public void hitungSisi(double d1, double d2){
         this.sisi = Math.sqrt(Math.pow((d1*0.5), 2) + Math.pow((d2*0.5), 2));
     }
     
@@ -44,9 +44,12 @@ public class BelahKetupat implements Runnable{
         this.keliling = 4*this.sisi;
     }
     
+    public void hitungKeliling(double sisi){
+        this.keliling = 4*sisi;
+    }
+    
+    @Override
     public void tampilkanHasil() {
-        
-       
         BelahKetupat.logTarget.append("Sisi Belah Ketupat: " + this.sisi + "\n");
         BelahKetupat.logTarget.append("Luas Belah Ketupat: " + this.luas + "\n");
         BelahKetupat.logTarget.append("Keliling Belah Ketupat: " + this.keliling + "\n");
@@ -73,7 +76,7 @@ public class BelahKetupat implements Runnable{
             Thread.sleep(waktuTunda);
             }
 
-            hitungS();
+            hitungSisi();
             hitungLuas();
             hitungKeliling();
             
