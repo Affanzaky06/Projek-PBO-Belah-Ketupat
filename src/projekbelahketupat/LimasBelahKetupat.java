@@ -16,7 +16,6 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     private double luasPermukaan;
         
     public LimasBelahKetupat(){
-        super();
         this.tinggiLimas = 0;
     }
     
@@ -30,7 +29,7 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     }
         
     public void hitungVolume() {
-        this.volume = (1.0 / 3.0) * this.luas * this.tinggiLimas;
+        this.volume = (1.0 / 3.0) * super.luas * this.tinggiLimas;
     }
     
     public void hitungVolume(double luas, double tinggiLimas) {
@@ -38,8 +37,8 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     }
     
     public void hitungLuasPermukaan() {
-        double tinggiSegitigaTegak = Math.sqrt(Math.pow(this.tinggiLimas, 2) + Math.pow(this.sisi / 2, 2));
-        this.luasPermukaan = this.luas + (4 * (0.5 * this.sisi * tinggiSegitigaTegak));
+        double tinggiSegitigaTegak = Math.sqrt(Math.pow(this.tinggiLimas, 2) + Math.pow(super.sisi / 2, 2));
+        this.luasPermukaan = super.luas + (4 * (0.5 * super.sisi * tinggiSegitigaTegak));
     }
     
     public void hitungLuasPermukaan(double tinggiLimas, double sisi, double luas) {

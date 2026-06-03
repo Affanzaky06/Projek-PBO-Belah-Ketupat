@@ -239,25 +239,20 @@ public class main extends javax.swing.JFrame {
                 if (mCheckBoxPrisma.isSelected()) {
                     jTextArea1.append("-> Menghitung Prisma Belah Ketupat...\n");
 
-                    // 1. Buat objek pakai constructor default
-                    PrismaBelahKetupat prisma = new PrismaBelahKetupat();
+                     PrismaBelahKetupat prisma = new PrismaBelahKetupat();
 
-                    // 2. Isi data yang wajib disimpan di objek (opsional untuk d1 & d2, wajib untuk variabel private lewat setter)
-                    prisma.d1 = d1;
-                    prisma.d2 = d2;
-                    prisma.setTinggiPrisma(t); // WAJIB pakai setter karena private
-
-                    // 3. IMPLEMENTASI METHOD OVERLOADING
+                    // 2. IMPLEMENTASI METHOD OVERLOADING BERPARAMETER
+                    // d1 & d2 belum diset ke objek, langsung lempar lewat parameter
                     prisma.hitungSisi(d1, d2);
                     prisma.hitungLuas(d1, d2);
-                    prisma.hitungKeliling(prisma.sisi); // pakai parameter sisi yang baru saja dihitung
-
-                    // Pakai overload hitungVolume yang butuh (luas, tinggi) atau (d1, d2, tinggi)
-                    // Di sini kita pakai yang (d1, d2, tinggi) sesuai method yang kamu buat
+                    prisma.hitungKeliling(prisma.sisi);
                     prisma.hitungVolume(d1, d2, t);
-
-                    // Pakai overload hitungLuasPermukaan yang butuh (luas, keliling, tinggi)
                     prisma.hitungLuasPermukaan(prisma.luas, prisma.keliling, t);
+
+                    // 3. Baru simpan d1, d2, dan tinggi ke objek setelah semua perhitungan selesai
+                    prisma.d1 = d1;
+                    prisma.d2 = d2;
+                    prisma.setTinggiPrisma(t);
 
                     // 4. Tampilkan Hasil
                     prisma.tampilkanHasil();
@@ -267,19 +262,21 @@ public class main extends javax.swing.JFrame {
                     jTextArea1.append("-> Menghitung Limas Belah Ketupat...\n");
                     
                     LimasBelahKetupat limas = new LimasBelahKetupat();
-                    
-                    
+
+                    // IMPLEMENTASI METHOD OVERLOADING BERPARAMETER
+                    // d1 & d2 belum diset ke objek, langsung lempar lewat parameter
+                    limas.hitungSisi(d1, d2);
+                    limas.hitungLuas(d1, d2);
+                    limas.hitungKeliling(limas.sisi);
+                    limas.hitungVolume(limas.luas, t);
+                    limas.hitungLuasPermukaan(t, limas.sisi, limas.luas);
+
+                    // Baru simpan d1, d2, dan tinggi ke objek setelah semua perhitungan selesai
                     limas.d1 = d1;
                     limas.d2 = d2;
                     limas.setTinggiLimas(t);
-                    
-                    limas.hitungSisi();
-                    limas.hitungLuas();
-                    limas.hitungKeliling();
-                    limas.hitungVolume();
-                    limas.hitungLuasPermukaan();
-                    
-                    limas.tampilkanHasil(); // Panggil langsung method-nya
+
+                    limas.tampilkanHasil();
                 }
                 
                 // Efek autoscroll ke bawah

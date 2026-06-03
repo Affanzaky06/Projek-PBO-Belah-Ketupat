@@ -16,7 +16,6 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     
     
     public PrismaBelahKetupat(){
-        super();
         this.tinggiPrisma = 0;
     }
     
@@ -30,7 +29,7 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     
     public void hitungVolume() {
         // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
-        this.volume = this.luas * this.tinggiPrisma;
+        this.volume = super.luas * this.tinggiPrisma;
     }
    
     public void hitungVolume(double luas, double tinggiPrisma) {
@@ -45,7 +44,7 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     
     public void hitungLuasPermukaan() {
         // Langsung comot data luas dan keliling dari dirinya sendiri (hasil warisan)
-        this.luasPermukaan = ((2 * this.luas) + (this.keliling * this.tinggiPrisma));
+        this.luasPermukaan = ((2 * super.luas) + (super.keliling * this.tinggiPrisma));
     }
     
     public void hitungLuasPermukaan(double luas, double keliling, double tinggiPrisma) {
