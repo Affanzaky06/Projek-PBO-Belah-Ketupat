@@ -8,12 +8,12 @@ package projekbelahketupat;
  *
  * @author ACER
  */
-public class main extends javax.swing.JFrame {
+public class ProjekBelahKetupat extends javax.swing.JFrame {
 
     /**
      * Creates new form FrameTampil
      */
-    public main() {
+    public ProjekBelahKetupat() {
         initComponents();
         
         BelahKetupat.logTarget = jTextArea1;
@@ -408,12 +408,12 @@ public class main extends javax.swing.JFrame {
         System.out.println("loding...");
         System.out.println("Membuka Antarmuka GUI...");
 
-        // Memanggil dan memunculkan main (GUI) ke layar secara aman
+        // Memanggil dan memunculkan ProjekBelahKetupat (GUI) ke layar secara aman
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                // Instansiasi objek main lalu buat menjadi terlihat (visible)
-                new main().setVisible(true);
+                // Instansiasi objek ProjekBelahKetupat lalu buat menjadi terlihat (visible)
+                new ProjekBelahKetupat().setVisible(true);
             }
         });
         
