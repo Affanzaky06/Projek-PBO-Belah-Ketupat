@@ -38,8 +38,8 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     }
    
     public void hitungVolume(double d1, double d2, double tinggiPrisma) {
-        
-        this.volume = super.hitungLuas(d1, d2) * tinggiPrisma;
+        super.hitungLuas(d1, d2);
+        this.volume = super.luas * tinggiPrisma;
     }
     
     public void hitungLuasPermukaan() {

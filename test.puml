@@ -1,0 +1,23 @@
+@startuml
+abstract class projekbelahketupat.BangunGeometri
+annotation java.lang.Override
+annotation java.lang.SuppressWarnings
+class javax.swing.JFrame
+class projekbelahketupat.BelahKetupat
+class projekbelahketupat.LimasBelahKetupat
+class projekbelahketupat.PrismaBelahKetupat
+class projekbelahketupat.main
+interface java.lang.Runnable
+projekbelahketupat.BelahKetupat --|> projekbelahketupat.BangunGeometri
+projekbelahketupat.BelahKetupat ..> java.lang.Override
+projekbelahketupat.BelahKetupat --|> java.lang.Runnable
+projekbelahketupat.LimasBelahKetupat ..> java.lang.Override
+projekbelahketupat.LimasBelahKetupat --|> projekbelahketupat.BelahKetupat
+projekbelahketupat.LimasBelahKetupat --|> java.lang.Runnable
+projekbelahketupat.PrismaBelahKetupat ..> java.lang.Override
+projekbelahketupat.PrismaBelahKetupat --|> projekbelahketupat.BelahKetupat
+projekbelahketupat.PrismaBelahKetupat --|> java.lang.Runnable
+projekbelahketupat.main ..> java.lang.Override
+projekbelahketupat.main ..> java.lang.SuppressWarnings
+projekbelahketupat.main --|> javax.swing.JFrame
+@enduml

@@ -27,9 +27,8 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
         this.luas = 0.5*d1*d2;
     }
     
-    public double hitungLuas(double d1, double d2) {
+    public void hitungLuas(double d1, double d2) {
         this.luas = 0.5*d1*d2;
-        return this.luas;
     }
     
     public void hitungSisi(){
@@ -72,6 +71,7 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
                         }
                     });
                 }
+                
             int waktuTunda =  10 + (int)(Math.random() * 40);
             Thread.sleep(waktuTunda);
             }

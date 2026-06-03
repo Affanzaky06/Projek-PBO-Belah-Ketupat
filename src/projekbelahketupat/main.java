@@ -304,7 +304,7 @@ public class main extends javax.swing.JFrame {
         
         jTextArea1.append("\n>> RANDOM MODE | MULTITHREADING : " + (pakaiThread ? "ON" : "OFF") + "\n");
 
-        int jumlahData = 5; 
+        int jumlahData = 500; 
 
 
         panelBar.removeAll(); 
