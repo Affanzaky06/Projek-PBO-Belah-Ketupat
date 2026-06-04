@@ -19,6 +19,12 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
         this.tinggiLimas = 0;
     }
     
+    public LimasBelahKetupat(double d1, double d2, double t){
+        super.d1 = d1;
+        super.d2 = d2;
+        this.tinggiLimas = t;
+    }
+    
     
     public void setTinggiLimas(double tinggiLimas){
         this.tinggiLimas = tinggiLimas;

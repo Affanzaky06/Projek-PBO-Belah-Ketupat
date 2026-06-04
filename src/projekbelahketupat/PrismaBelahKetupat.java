@@ -19,6 +19,12 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
         this.tinggiPrisma = 0;
     }
     
+    public PrismaBelahKetupat(double d1, double d2, double t){
+        super.d1 = d1;
+        super.d2 = d2;
+        this.tinggiPrisma = t;
+    }
+    
     public void setTinggiPrisma(double tinggiPrisma){
         this.tinggiPrisma = tinggiPrisma;
     }

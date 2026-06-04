@@ -21,7 +21,13 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
     public BelahKetupat(){
         this.d1 = 0;
         this.d2 = 0;
-    } // tidak ada
+    } 
+    
+    public BelahKetupat(double d1, double d2){
+        this.d1 = d1;
+        this.d2 = d2;
+    } 
+    
     
     public double hitungLuas(){
         this.luas = 0.5*this.d1*this.d2;

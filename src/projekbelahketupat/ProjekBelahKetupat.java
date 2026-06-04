@@ -324,21 +324,16 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     String jenis = pilihanAktif.get(i % pilihanAktif.size());
 
                     if (jenis.equals("PRISMA")) {
-                        PrismaBelahKetupat prisma = new PrismaBelahKetupat();
-                        prisma.d1 = randD1;
-                        prisma.d2 = randD2;
-                        prisma.setTinggiPrisma(randTinggi);
+                        BelahKetupat prisma = new PrismaBelahKetupat(randD1, randD2, randTinggi);
+                        
                         kumpulanBangun[i] = prisma;
                     } else if (jenis.equals("LIMAS")) {
-                        LimasBelahKetupat limas = new LimasBelahKetupat();
-                        limas.d1 = randD1;
-                        limas.d2 = randD2;
-                        limas.setTinggiLimas(randTinggi);
+                        BelahKetupat limas = new LimasBelahKetupat(randD1, randD2, randTinggi);
+           
                         kumpulanBangun[i] = limas;
                     } else {
-                        BelahKetupat bk = new BelahKetupat();
-                        bk.d1 = randD1;
-                        bk.d2 = randD2;
+                        BelahKetupat bk = new BelahKetupat(randD1, randD2);
+                     
                         kumpulanBangun[i] = bk;
                     }
                     
