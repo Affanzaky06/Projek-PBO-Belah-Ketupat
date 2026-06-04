@@ -27,29 +27,26 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
         return tinggiPrisma;
     }
     
-    public void hitungVolume() {
+    public double hitungVolume() {
         // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
         this.volume = super.luas * this.tinggiPrisma;
+        return volume;
     }
    
-    public void hitungVolume(double luas, double tinggiPrisma) {
-        // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
-        this.volume = luas * tinggiPrisma;
-    }
-   
-    public void hitungVolume(double d1, double d2, double tinggiPrisma) {
-        super.hitungLuas(d1, d2);
-        this.volume = super.luas * tinggiPrisma;
+    public double hitungVolume(double d1, double d2, double tinggiPrisma) {
+        this.volume = super.hitungLuas(d1, d2) * tinggiPrisma;
+        return volume;
     }
     
-    public void hitungLuasPermukaan() {
+    public double hitungLuasPermukaan() {
         // Langsung comot data luas dan keliling dari dirinya sendiri (hasil warisan)
         this.luasPermukaan = ((2 * super.luas) + (super.keliling * this.tinggiPrisma));
+        return luasPermukaan;
     }
     
-    public void hitungLuasPermukaan(double luas, double keliling, double tinggiPrisma) {
-        
-        this.luasPermukaan = ((2 * luas) + (keliling * tinggiPrisma));
+    public double hitungLuasPermukaan(double d1, double d2, double keliling, double tinggiPrisma) {
+        this.luasPermukaan = ((2 * super.hitungLuas(d1, d2)) + (keliling * tinggiPrisma));
+        return luasPermukaan;
     }
     @Override
     public void tampilkanHasil() {

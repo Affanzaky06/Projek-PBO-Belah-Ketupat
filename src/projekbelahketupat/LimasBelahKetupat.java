@@ -28,22 +28,26 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     return tinggiLimas;
     }
         
-    public void hitungVolume() {
+    public double hitungVolume() {
         this.volume = (1.0 / 3.0) * super.luas * this.tinggiLimas;
+        return volume;
     }
     
-    public void hitungVolume(double luas, double tinggiLimas) {
-        this.volume = (1.0 / 3.0) * luas * tinggiLimas;
+    public double hitungVolume(double d1, double d2, double tinggiLimas) {
+        this.volume = (1.0 / 3.0) * super.hitungLuas(d1, d2) * tinggiLimas;
+        return volume;
     }
     
-    public void hitungLuasPermukaan() {
+    public double hitungLuasPermukaan() {
         double tinggiSegitigaTegak = Math.sqrt(Math.pow(this.tinggiLimas, 2) + Math.pow(super.sisi / 2, 2));
         this.luasPermukaan = super.luas + (4 * (0.5 * super.sisi * tinggiSegitigaTegak));
+        return luasPermukaan;
     }
     
-    public void hitungLuasPermukaan(double tinggiLimas, double sisi, double luas) {
+    public double hitungLuasPermukaan(double tinggiLimas, double sisi, double d1, double d2) {
         double tinggiSegitigaTegak = Math.sqrt(Math.pow(tinggiLimas, 2) + Math.pow(sisi / 2, 2));
-        this.luasPermukaan = luas + (4 * (0.5 * sisi * tinggiSegitigaTegak));
+        this.luasPermukaan = super.hitungLuas(d1, d2) + (4 * (0.5 * sisi * tinggiSegitigaTegak));
+        return luasPermukaan;
     }
     @Override
     public void tampilkanHasil() {

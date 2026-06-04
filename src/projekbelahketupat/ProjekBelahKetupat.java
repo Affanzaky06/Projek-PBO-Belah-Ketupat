@@ -247,7 +247,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     prisma.hitungLuas(d1, d2);
                     prisma.hitungKeliling(prisma.sisi);
                     prisma.hitungVolume(d1, d2, t);
-                    prisma.hitungLuasPermukaan(prisma.luas, prisma.keliling, t);
+                    prisma.hitungLuasPermukaan(d1,d2, prisma.keliling, t);
 
                     // 3. Baru simpan d1, d2, dan tinggi ke objek setelah semua perhitungan selesai
                     prisma.d1 = d1;
@@ -268,8 +268,8 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     limas.hitungSisi(d1, d2);
                     limas.hitungLuas(d1, d2);
                     limas.hitungKeliling(limas.sisi);
-                    limas.hitungVolume(limas.luas, t);
-                    limas.hitungLuasPermukaan(t, limas.sisi, limas.luas);
+                    limas.hitungVolume(d1, d2, t);
+                    limas.hitungLuasPermukaan(t, limas.sisi, d1, d2);
 
                     // Baru simpan d1, d2, dan tinggi ke objek setelah semua perhitungan selesai
                     limas.d1 = d1;
