@@ -23,28 +23,34 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
         this.d2 = 0;
     } // tidak ada
     
-    public void hitungLuas(){
-        this.luas = 0.5*d1*d2;
+    public double hitungLuas(){
+        this.luas = 0.5*this.d1*this.d2;
+        return luas;
     }
     
-    public void hitungLuas(double d1, double d2) {
+    public double hitungLuas(double d1, double d2) {
         this.luas = 0.5*d1*d2;
+        return luas;
     }
     
-    public void hitungSisi(){
+    public double hitungSisi(){
         this.sisi = Math.sqrt(Math.pow((this.d1*0.5), 2) + Math.pow((this.d2*0.5), 2));
+        return sisi;
     }
     
-    public void hitungSisi(double d1, double d2){
+    public double hitungSisi(double d1, double d2){
         this.sisi = Math.sqrt(Math.pow((d1*0.5), 2) + Math.pow((d2*0.5), 2));
+        return sisi;
     }
     
-    public void hitungKeliling(){
+    public double hitungKeliling(){
         this.keliling = 4*this.sisi;
+        return keliling;
     }
     
-    public void hitungKeliling(double sisi){
+    public double hitungKeliling(double sisi){
         this.keliling = 4*sisi;
+        return keliling;
     }
     
     @Override
@@ -74,7 +80,10 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
             int waktuTunda =  10 + (int)(Math.random() * 40);
             Thread.sleep(waktuTunda);
             }
-
+            
+            int waktuTunda = 500 + (int)(Math.random() * 1000); 
+            Thread.sleep(waktuTunda);
+            
             hitungSisi();
             hitungLuas();
             hitungKeliling();
