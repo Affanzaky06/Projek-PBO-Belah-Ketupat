@@ -33,7 +33,17 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     public double getTinggiLimas(){
     return tinggiLimas;
     }
-        
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public double getLuasPermukaan() {
+        return luasPermukaan;
+    }
+      
+    
+    
     public double hitungVolume() {
         this.volume = (1.0 / 3.0) * super.luas * this.tinggiLimas;
         return volume;
@@ -58,9 +68,9 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     @Override
     public void tampilkanHasil() {
         
-        BelahKetupat.logTarget.append("Volume Limas Belah Ketupat: " + this.volume + "\n");
-        BelahKetupat.logTarget.append("Luas Permukaan Limas Belah Ketupat: " + this.luasPermukaan + "\n");
-        BelahKetupat.logTarget.append("------------------------------------\n");
+//        BelahKetupat.logTarget.append("Volume Limas Belah Ketupat: " + this.volume + "\n");
+//        BelahKetupat.logTarget.append("Luas Permukaan Limas Belah Ketupat: " + this.luasPermukaan + "\n");
+//        BelahKetupat.logTarget.append("------------------------------------\n");
         
 
     }
@@ -106,7 +116,7 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
                         if (logTarget != null) {
                             logTarget.append("[" + namaThread + "] Berhasil finish!\n");
 
-                            tampilkanHasil();
+                            ProjekBelahKetupat.prosesSelesai(LimasBelahKetupat.this);
                         
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
                         }

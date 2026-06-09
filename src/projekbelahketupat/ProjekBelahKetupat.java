@@ -393,9 +393,29 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, pesan, "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // Method versi 2 (OVERLOADING): Butuh pesan, judul spesifik, dan tipe ikon error
+
     public void tampilkanNotif(String pesan, String judul, int tipeIkon) {
         javax.swing.JOptionPane.showMessageDialog(this, pesan, judul, tipeIkon);
+    }
+    
+    
+    public static void prosesSelesai(BelahKetupat bk) {
+        BangunGeometri.logTarget.append("Sisi: " + bk.sisi + "\n");
+        BangunGeometri.logTarget.append("Luas: " + bk.luas + "\n");
+        BangunGeometri.logTarget.append("Keliling: " + bk.keliling + "\n");
+        BangunGeometri.logTarget.append("------------------------------------\n");
+    }
+
+    public static void prosesSelesai(LimasBelahKetupat l) {
+        BangunGeometri.logTarget.append("Volume Limas: " + l.getVolume() + "\n");
+        BangunGeometri.logTarget.append("Luas Permukaan Limas: " + l.getLuasPermukaan() + "\n");
+        BangunGeometri.logTarget.append("------------------------------------\n");
+    }
+
+    public static void prosesSelesai(PrismaBelahKetupat p) {
+        BangunGeometri.logTarget.append("Volume Prisma: " + p.getVolume() + "\n");
+        BangunGeometri.logTarget.append("Luas Permukaan Prisma: " + p.getLuasPermukaan() + "\n");
+        BangunGeometri.logTarget.append("------------------------------------\n");
     }
     
     public static void main(String[] args) {

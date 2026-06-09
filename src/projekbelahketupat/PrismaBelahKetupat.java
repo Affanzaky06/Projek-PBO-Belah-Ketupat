@@ -32,6 +32,14 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     public double getTinggiPrisma(){
         return tinggiPrisma;
     }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public double getLuasPermukaan() {
+        return luasPermukaan;
+    }
     
     public double hitungVolume() {
         // Karena kelas atas public, Prisma bisa langsung pakai 'this.luas' warisan bapaknya
@@ -57,9 +65,9 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     @Override
     public void tampilkanHasil() {
         
-        BelahKetupat.logTarget.append("Volume Prisma Belah Ketupat: " + this.volume+ "\n");
-        BelahKetupat.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + this.luasPermukaan+ "\n");
-        BelahKetupat.logTarget.append("------------------------------------\n");
+//        BelahKetupat.logTarget.append("Volume Prisma Belah Ketupat: " + this.volume+ "\n");
+//        BelahKetupat.logTarget.append("Luas Permukaan Prisma Belah Ketupat: " + this.luasPermukaan+ "\n");
+//        BelahKetupat.logTarget.append("------------------------------------\n");
         
     }
     
@@ -106,10 +114,11 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
                         if (logTarget != null) {
                             logTarget.append("[" + namaThread + "] Berhasil finish!\n");
 
-                            tampilkanHasil();
+                            ProjekBelahKetupat.prosesSelesai(PrismaBelahKetupat.this);
                         
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
                         }
+                       
                         
                     }
                 });

@@ -61,10 +61,10 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
     
     @Override
     public void tampilkanHasil() {
-        BelahKetupat.logTarget.append("Sisi Belah Ketupat: " + this.sisi + "\n");
-        BelahKetupat.logTarget.append("Luas Belah Ketupat: " + this.luas + "\n");
-        BelahKetupat.logTarget.append("Keliling Belah Ketupat: " + this.keliling + "\n");
-        BelahKetupat.logTarget.append("------------------------------------\n");
+//        BelahKetupat.logTarget.append("Sisi Belah Ketupat: " + this.sisi + "\n");
+//        BelahKetupat.logTarget.append("Luas Belah Ketupat: " + this.luas + "\n");
+//        BelahKetupat.logTarget.append("Keliling Belah Ketupat: " + this.keliling + "\n");
+//        BelahKetupat.logTarget.append("------------------------------------\n");
     }   
 
     @Override
@@ -107,7 +107,7 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
                         if (logTarget != null) {
                             logTarget.append("[" + namaThread + "] Berhasil finish!\n");
 
-                            tampilkanHasil();
+                            ProjekBelahKetupat.prosesSelesai(BelahKetupat.this);
                         
                             logTarget.setCaretPosition(logTarget.getDocument().getLength());
                           }
