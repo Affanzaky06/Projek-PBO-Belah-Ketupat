@@ -103,7 +103,7 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
              this.hitungLuasPermukaan();
 
          
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         
@@ -121,7 +121,7 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
                        
                         
                     }
-                });
+            });
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -233,7 +233,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     bk.d2 = d2;
 
                     // 3. Tampilkan hasilnya
-                    bk.tampilkanHasil();
+                    prosesSelesai(bk);
                 }
                 
                 if (mCheckBoxPrisma.isSelected()) {
@@ -255,7 +255,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     prisma.setTinggiPrisma(t);
 
                     // 4. Tampilkan Hasil
-                    prisma.tampilkanHasil();
+                    prosesSelesai(prisma);
                 }
                 
                 if (mCheckBoxLimas.isSelected()) {
@@ -276,7 +276,7 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                     limas.d2 = d2;
                     limas.setTinggiLimas(t);
 
-                    limas.tampilkanHasil();
+                    prosesSelesai(limas);
                 }
                 
                 // Efek autoscroll ke bawah
