@@ -9,7 +9,12 @@ package projekbelahketupat;
  * @author ACER
  */
 public class ProjekBelahKetupat extends javax.swing.JFrame {
-
+    
+    public static class DimensiTidakValidException extends Exception{
+        public DimensiTidakValidException(String pesanError) {
+            super(pesanError);
+        }
+    }
     /**
      * Creates new form FrameTampil
      */
@@ -159,12 +164,12 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInputActionPerformed
-        // TODO add your handling code here:                 
-        
+        // TODO add your handling code here:                       
+        try {
+            
         // 1. Cek apakah ada yang dicentang
         if (!mCheckBoxBK.isSelected() && !mCheckBoxPrisma.isSelected() && !mCheckBoxLimas.isSelected()) {
-            tampilkanNotif("Centang minimal satu bangun di menu Input Manual!");
-            return;
+            throw new DimensiTidakValidException("Centang minimal satu bangun di menu Input Manual terlebih dahulu!");
         }
 
         // 2. Siapkan kolom input
@@ -192,22 +197,25 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
         int option = javax.swing.JOptionPane.showConfirmDialog(this, formItems.toArray(), "Input Manual Dinamis", javax.swing.JOptionPane.OK_CANCEL_OPTION);
 
         if (option == javax.swing.JOptionPane.OK_OPTION) {
-            try {
-                // Tarik data
+                String d1raw = d1Field.getText();
+                String d2raw = d2Field.getText();
+                String Traw  = tField.getText();
+                
+                if (d1raw.isEmpty() || d2raw.isEmpty()) {
+                    throw new DimensiTidakValidException("Kolom d1 atauu d2 tidak boleh kosong!");
+                }
+                
+               // Tarik data
                 double d1 = Double.parseDouble(d1Field.getText());
                 double d2 = Double.parseDouble(d2Field.getText());
                 double t = 0;
                 
-                if (d1 <= 0 || d2 <= 0) {
-                    throw new Exception ("nilai d1 dan d2 tidak boleh <= 0");
-                
-                }
                 
                 if (butuhTinggi) {
-                    t = Double.parseDouble(tField.getText());
-                    if (t <= 0) {
-                        throw new Exception("nilai t tidak boleh <=0");
+                    if (Traw.isEmpty()) {
+                    throw new DimensiTidakValidException("Kolom tinggi tidak boleh kosong!");
                     }
+                    t = Double.parseDouble(tField.getText());
                 }
 
                 jTextArea1.append("\n>> [MANUAL] Memproses (D1=" + d1 + ", D2=" + d2 + (butuhTinggi ? ", T=" + t : "") + ")\n");
@@ -216,84 +224,64 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
                 if (mCheckBoxBK.isSelected()) {
                     jTextArea1.append("-> Menghitung Belah Ketupat...\n");
 
-                    // 1. Buat objek pakai constructor default (tanpa parameter)
-                    BelahKetupat bk = new BelahKetupat();
-
-                    // 2. IMPLEMENTASI METHOD OVERLOADING DI SINI!
-                    // Kita langsung lempar nilai d1 dan d2 dari JTextField ke method
+                    BelahKetupat bk = new BelahKetupat(0,0);
                     bk.hitungSisi(d1, d2);
                     bk.hitungLuas(d1, d2);
-
-                    // Karena hitungSisi(d1, d2) sudah mengisi variabel bk.sisi di dalam objek,
-                    // kita bisa melempar nilai bk.sisi tersebut ke hitungKeliling
                     bk.hitungKeliling(bk.sisi);
-
-                    // Opsional: Tetap simpan nilai d1 & d2 ke objek agar tidak 0 jika ingin dicetak di tampilkanHasil()
                     bk.d1 = d1;
                     bk.d2 = d2;
-
-                    // 3. Tampilkan hasilnya
                     bk.tampilkanHasil();
                 }
                 
                 if (mCheckBoxPrisma.isSelected()) {
                     jTextArea1.append("-> Menghitung Prisma Belah Ketupat...\n");
 
-                     PrismaBelahKetupat prisma = new PrismaBelahKetupat();
-
-                    // 2. IMPLEMENTASI METHOD OVERLOADING BERPARAMETER
-                    // d1 & d2 belum diset ke objek, langsung lempar lewat parameter
+                    PrismaBelahKetupat prisma = new PrismaBelahKetupat(0, 0, 0);
                     prisma.hitungSisi(d1, d2);
                     prisma.hitungLuas(d1, d2);
                     prisma.hitungKeliling(prisma.sisi);
                     prisma.hitungVolume(d1, d2, t);
                     prisma.hitungLuasPermukaan(d1,d2, prisma.keliling, t);
-
-                    // 3. Baru simpan d1, d2, dan tinggi ke objek setelah semua perhitungan selesai
                     prisma.d1 = d1;
                     prisma.d2 = d2;
                     prisma.setTinggiPrisma(t);
-
-                    // 4. Tampilkan Hasil
                     prisma.tampilkanHasil();
                 }
                 
                 if (mCheckBoxLimas.isSelected()) {
                     jTextArea1.append("-> Menghitung Limas Belah Ketupat...\n");
                     
-                    LimasBelahKetupat limas = new LimasBelahKetupat();
-
-                    // IMPLEMENTASI METHOD OVERLOADING BERPARAMETER
-                    // d1 & d2 belum diset ke objek, langsung lempar lewat parameter
+                    LimasBelahKetupat limas = new LimasBelahKetupat(0, 0, 0);
                     limas.hitungSisi(d1, d2);
                     limas.hitungLuas(d1, d2);
                     limas.hitungKeliling(limas.sisi);
                     limas.hitungVolume(d1, d2, t);
                     limas.hitungLuasPermukaan(t, limas.sisi, d1, d2);
-
-                    // Baru simpan d1, d2, dan tinggi ke objek setelah semua perhitungan selesai
                     limas.d1 = d1;
                     limas.d2 = d2;
                     limas.setTinggiLimas(t);
-
                     limas.tampilkanHasil();
                 }
-                
-                // Efek autoscroll ke bawah
                 jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
-
-            } catch (Exception e) {
-               tampilkanNotif("Gagal! " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
+                
+            } 
         }
-    
+        catch(NumberFormatException ex){
+            tampilkanNotif("Gagal! Harap isi nilai dengan angka","Eror" ,javax.swing.JOptionPane.ERROR_MESSAGE);       
+            }
+        catch (DimensiTidakValidException dx) {
+            tampilkanNotif(dx.getMessage(), "Dimensi Ditolak", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+        catch (Exception e) {
+            tampilkanNotif("Gagal! " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_jMenuInputActionPerformed
 
     private void RandomRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomRunActionPerformed
         // TODO add your handling code here:
-     if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
-            tampilkanNotif("Centang minimal satu bangun!");
-            return;
+        try {   
+        if (!rCheckBoxBK.isSelected() && !rCheckBoxPrisma.isSelected() && !rCheckBoxLimas.isSelected()) {
+            throw new DimensiTidakValidException("Centang minimal satu bangun terlebih dahulu!");
         }
 
         boolean pakaiThread = cbMultithreading.isSelected();
@@ -388,6 +376,13 @@ public class ProjekBelahKetupat extends javax.swing.JFrame {
         }); 
 
         masterThread.start();
+        
+        } catch (DimensiTidakValidException dx) {
+            tampilkanNotif(dx.getMessage(), "Dimensi Ditolak", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+        catch (Exception e) {
+            tampilkanNotif("Gagal! " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        } 
     }//GEN-LAST:event_RandomRunActionPerformed
     public void tampilkanNotif(String pesan) {
         javax.swing.JOptionPane.showMessageDialog(this, pesan, "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
