@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package projekbelahketupat;
-import javax.swing.*;
+
 import static projekbelahketupat.BangunGeometri.logTarget;
 
 /**
@@ -76,22 +76,8 @@ public class PrismaBelahKetupat extends BelahKetupat implements Runnable{
     public void run() {
         try {
             final String namaThread = Thread.currentThread().getName();
+     
             
-//            for (int i = 0; i < 100; i++) {
-//                final int persen = i;
-//                if (this.barProses != null) {
-//                    SwingUtilities.invokeLater(new Runnable (){
-//                        public void run(){
-//                            barProses.setValue(persen);
-//                        }
-//                    });
-//                }
-//                int waktuTunda =  10 + (int)(Math.random() * 40);
-//                Thread.sleep(waktuTunda);
-//            }
-//           
-           
-          
             int waktuTunda = 500 + (int)(Math.random() * 1000); ; 
             
              super.hitungSisi();
