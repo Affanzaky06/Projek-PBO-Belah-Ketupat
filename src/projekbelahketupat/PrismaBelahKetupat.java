@@ -4,7 +4,6 @@
  */
 package projekbelahketupat;
 
-import static projekbelahketupat.BangunGeometri.logTarget;
 
 /**
  *
