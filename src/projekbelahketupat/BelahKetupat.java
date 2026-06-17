@@ -46,6 +46,9 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
     }
     
     public double hitungSisi(){
+         if (this.d1 <= 0 || this.d2 <= 0) {
+            throw new IllegalArgumentException ("nilai d1 dan d2 tidak boleh <= 0");
+        }
         this.sisi = Math.sqrt(Math.pow((this.d1*0.5), 2) + Math.pow((this.d2*0.5), 2));
         return sisi;
     }
