@@ -30,7 +30,7 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
     
     
     public double hitungLuas(){
-        if (d1 <= 0 || d2 <= 0) {
+        if (this.d1 <= 0 || this.d2 <= 0) {
             throw new IllegalArgumentException ("pastikan nilai d1 dan d2 tidak <= 0");
         }
         this.luas = 0.5*this.d1*this.d2;
