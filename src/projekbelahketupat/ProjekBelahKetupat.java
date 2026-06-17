@@ -10,11 +10,7 @@ package projekbelahketupat;
  */
 public class ProjekBelahKetupat extends javax.swing.JFrame {
     
-    public static class DimensiTidakValidException extends Exception{
-        public DimensiTidakValidException(String pesanError) {
-            super(pesanError);
-        }
-    }
+    
     /**
      * Creates new form FrameTampil
      */
