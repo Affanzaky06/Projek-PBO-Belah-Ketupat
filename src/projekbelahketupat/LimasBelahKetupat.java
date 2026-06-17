@@ -35,7 +35,7 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
     }
         
     public double hitungVolume(){
-        if (super.luas <=0 || super.sisi <=0) {
+        if (super.luas <=0 || this.tinggiLimas <=0) {
             throw new IllegalArgumentException ("pastikan luas dan tinggi sudah di hitung dan tidak <= 0");
         }
         this.volume = (1.0 / 3.0) * super.luas * this.tinggiLimas;
@@ -121,7 +121,14 @@ public class LimasBelahKetupat extends BelahKetupat implements Runnable{
                 });
             
         } catch (Exception e) {
-            e.printStackTrace();
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                    javax.swing.JOptionPane.showMessageDialog(
+                        null,
+                        e.getMessage(),
+                        "Perhitungan Gagal",
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                    );
+                });
         }
     }
     

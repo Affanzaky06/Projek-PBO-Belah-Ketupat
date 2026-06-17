@@ -123,9 +123,17 @@ public class BelahKetupat extends BangunGeometri implements Runnable{
                 });
             
         } catch (Exception e) {
-            e.printStackTrace();
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    javax.swing.JOptionPane.showMessageDialog(
+                        null,
+                        e.getMessage(),
+                        "Perhitungan Gagal",
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                    );
+                });
+            }
         }
     }
     
     
-}
+
